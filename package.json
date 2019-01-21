@@ -1,0 +1,67 @@
+{
+  "name": "lit-redux-watch",
+  "version": "0.1.0",
+  "description": "Create properties in LitElements that watch for updates in a redux store",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "ci:test": "npm-run-all -l build test:*",
+    "clean": "del-cli dist",
+    "docs": "typedoc --readme README.md --tsconfig tsconfig.json --mode modules --excludeNotExported --excludePrivate --ignoreCompilerErrors --exclude '{**/*test*,**/node_modules/**,**/test/**}' --out ./docs lib/**/*.ts",
+    "prepare": "npm-run-all -l build",
+    "test": "npm-run-all build test:*",
+    "test:ava": "ava-ts --verbose",
+    "test:lint": "tslint -p tsconfig.json -c tslint.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gerarts/lit-redux-watch.git"
+  },
+  "keywords": [
+    "redux",
+    "watch",
+    "lit",
+    "lit-element"
+  ],
+  "author": {
+    "name": "Paul Gerarts",
+    "email": "dev@gerarts.nl"
+  },
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/gerarts/lit-redux-watch/issues"
+  },
+  "homepage": "https://github.com/gerarts/lit-redux-watch#readme",
+  "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^2.2.4",
+    "ava": "^1.1.0",
+    "ava-ts": "^0.25.2",
+    "del-cli": "^1.1.0",
+    "lit-element": "^2.0.0-rc.3",
+    "lit-html": "^1.0.0-rc.2",
+    "npm-run-all": "^4.1.5",
+    "redux": "^4.0.1",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.12.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-microsoft-contrib": "^6.0.0",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.2.4"
+  },
+  "ava": {
+    "compileEnhancements": false,
+    "files": [
+      "lib/**/*.test.ts"
+    ],
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "sources": [
+      "lib/**/*.ts"
+    ]
+  }
+}

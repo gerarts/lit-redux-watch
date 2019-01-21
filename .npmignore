@@ -1,0 +1,4 @@
+lib/
+resourcegen/
+tsconfig.json
+tslint.json

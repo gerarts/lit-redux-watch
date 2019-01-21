@@ -1,0 +1,165 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended",
+        "tslint-microsoft-contrib"
+    ],
+    "jsRules": {},
+    "rules": {
+        "align": [
+            true,
+            "elements",
+            "members",
+            "statements"
+        ],
+        "array-bracket-spacing": [
+            true,
+            "never"
+        ],
+        "block-spacing": [
+            true,
+            "never"
+        ],
+        "brace-style": [
+            true,
+            "1tbs",
+            {
+                "allowSingleLine": true
+            }
+        ],
+        "comment-format": [
+            true,
+            "check-space"
+        ],
+        "curly": [
+            true,
+            "multi-line"
+        ],
+        "eofline": true,
+        "export-name": false,
+        "forin": true,
+        "interface-name": [
+            true,
+            "never-prefix"
+        ],
+        "linebreak-style": true,
+        "match-default-export-name": false,
+        "newline-per-chained-call": false,
+        "no-any": false,
+        "no-arg": true,
+        "no-conditional-assignment": false,
+        "no-consecutive-blank-lines": true,
+        "no-console": [
+            true,
+            {
+                "allow": [
+                    "warn"
+                ]
+            }
+        ],
+        "no-constant-condition": true,
+        "no-construct": true,
+        "no-control-regex": true,
+        "no-debugger": true,
+        "no-duplicate-switch-case": true,
+        "no-empty": true,
+        "no-empty-character-class": true,
+        "no-ex-assign": true,
+        "no-extra-boolean-cast": true,
+        "no-extra-semi": true,
+        "no-implicit-dependencies": false,
+        "no-increment-decrement": false,
+        "no-inner-declarations": true,
+        "no-invalid-regexp": true,
+        "no-invalid-this": true,
+        "no-irregular-whitespace": true,
+        "no-multi-spaces": true,
+        "no-null-keyword": false,
+        "no-regex-spaces": true,
+        "no-relative-imports": false,
+        "no-reserved-keywords": false,
+        "no-sparse-arrays": true,
+        "no-string-throw": true,
+        "no-submodule-imports": false,
+        "no-this-assignment": false,
+        "no-trailing-whitespace": true,
+        "no-unexpected-multiline": true,
+        "no-unnecessary-override": false,
+        "no-unsafe-finally": true,
+        "no-var-keyword": true,
+        "object-curly-spacing": true,
+        "object-literal-key-quotes": [
+            true,
+            "consistent-as-needed"
+        ],
+        "one-variable-per-declaration": true,
+        "prefer-const": [
+            true,
+            {
+                "destructuring": "all"
+            }
+        ],
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "semicolon": [
+            true,
+            "always"
+        ],
+        "strict-boolean-expressions": false,
+        "ter-arrow-parens": [
+            true,
+            "always"
+        ],
+        "ter-computed-property-spacing": true,
+        "ter-func-call-spacing": true,
+        "ter-indent": [
+            true,
+            4,
+            {
+                "CallExpression": {
+                    "arguments": 1
+                },
+                "FunctionDeclaration": {
+                    "body": 1,
+                    "parameters": 1
+                },
+                "FunctionExpression": {
+                    "body": 1,
+                    "parameters": 1
+                },
+                "MemberExpression": 1,
+                "ObjectExpression": 1,
+                "SwitchCase": 1
+            }
+        ],
+        "ter-max-len": [
+            true,
+            140,
+            4
+        ],
+        "ter-no-mixed-spaces-and-tabs": true,
+        "ter-no-tabs": true,
+        "ter-padded-blocks": [
+            true,
+            "never"
+        ],
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "always",
+                "singleline": "never"
+            }
+        ],
+        "use-isnan": true,
+        "variable-name": [
+            true
+        ],
+        "whitespace": true
+    },
+    "rulesDirectory": [
+        "node_modules/tslint-eslint-rules/dist/rules",
+        "node_modules/tslint-microsoft-contrib"
+    ]
+}
