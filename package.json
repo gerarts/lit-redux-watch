@@ -11,7 +11,7 @@
     "docs": "typedoc --readme README.md --tsconfig tsconfig.json --mode modules --excludeNotExported --excludePrivate --ignoreCompilerErrors --exclude '{**/*test*,**/node_modules/**,**/test/**}' --out ./docs lib/**/*.ts",
     "prepare": "npm-run-all -l build",
     "test": "npm-run-all build test:*",
-    "test:ava": "ava-ts --verbose",
+    "test:jest": "NODE_ENV=test jest",
     "test:lint": "tslint -p tsconfig.json -c tslint.json"
   },
   "repository": {
@@ -21,8 +21,7 @@
   "keywords": [
     "redux",
     "watch",
-    "lit",
-    "lit-element"
+    "lit"
   ],
   "author": {
     "name": "Paul Gerarts",
@@ -34,14 +33,18 @@
   },
   "homepage": "https://github.com/gerarts/lit-redux-watch#readme",
   "devDependencies": {
+    "@types/jest": "^23.3.13",
     "@webcomponents/webcomponentsjs": "^2.2.4",
-    "ava": "^1.1.0",
-    "ava-ts": "^0.25.2",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.3.3",
     "del-cli": "^1.1.0",
-    "lit-element": "^2.0.0-rc.3",
-    "lit-html": "^1.0.0-rc.2",
+    "jest": "^23.6.0",
     "npm-run-all": "^4.1.5",
     "redux": "^4.0.1",
+    "regenerator-runtime": "^0.13.1",
+    "ts-jest": "^23.10.5",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.0",
     "tslint-eslint-rules": "^5.4.0",
@@ -49,19 +52,23 @@
     "typedoc": "^0.14.2",
     "typescript": "^3.2.4"
   },
-  "ava": {
-    "compileEnhancements": false,
-    "files": [
-      "lib/**/*.test.ts"
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
     ],
-    "extensions": [
-      "ts"
+    "roots": [
+      "<rootDir>/lib"
     ],
-    "require": [
-      "ts-node/register"
-    ],
-    "sources": [
-      "lib/**/*.ts"
-    ]
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  },
+  "engines": {
+    "node": "^9.0.0"
   }
 }

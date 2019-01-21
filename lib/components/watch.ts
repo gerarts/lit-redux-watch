@@ -1,4 +1,3 @@
-import { LitElement, UpdatingElement } from 'lit-element';
 import { Store } from 'redux';
 import { ConnectAddons, FinalWatchOptions, WatchDecoratorFunction, WatchOptions } from './types';
 
@@ -11,19 +10,20 @@ import { ConnectAddons, FinalWatchOptions, WatchDecoratorFunction, WatchOptions 
  * This came from an older version of updating-element.ts from LitElement where it eventually was removed in
  * https://github.com/Polymer/lit-element/commit/c6e05816de9e2e5ef6bcceecbc7b9ff1198478ea#diff-c5f280d12b2d91f8b89fe4ac3b6313d8L23
  */
-type GetPropertyDescriptor = (name: PropertyKey, proto: UpdatingElement) => PropertyDescriptor | undefined;
-const getPropertyDescriptor: GetPropertyDescriptor = (name: PropertyKey, proto: UpdatingElement): PropertyDescriptor | undefined => {
-    let search: UpdatingElement = proto;
+type GetPropertyDescriptor = (name: PropertyKey, proto: any) => PropertyDescriptor | undefined;
+const getPropertyDescriptor: GetPropertyDescriptor = (name: PropertyKey, proto: any): PropertyDescriptor | undefined => {
+    let search: any = proto;
 
+    // tslint:disable no-unsafe-any
     if (name in search) {
         while (search !== Object.prototype) {
             if (search.hasOwnProperty(name)) {
                 return Object.getOwnPropertyDescriptor(search, name);
             }
-            // tslint:disable-next-line no-unsafe-any
             search = Object.getPrototypeOf(search);
         }
     }
+    // tslint:enable no-unsafe-any
 
     return undefined;
 };
@@ -34,7 +34,7 @@ const getPropertyDescriptor: GetPropertyDescriptor = (name: PropertyKey, proto: 
 export function watch<T = any>(path: string, options?: WatchOptions<T>, store?: Store): WatchDecoratorFunction;
 export function watch<T = any>(path: string, store: Store): WatchDecoratorFunction;
 export function watch<T = any>(path: string, options: WatchOptions<T> | Store = {}, store?: Store): WatchDecoratorFunction {
-    return (proto: LitElement, name: PropertyKey): void => {
+    return (proto: any, name: PropertyKey): void => {
         const watchPath: string[] = path ? path.split('.') : [];
         let watchOptions: WatchOptions<T> = {};
         let finalWatchOptions: FinalWatchOptions<T> = {
@@ -54,6 +54,7 @@ export function watch<T = any>(path: string, options: WatchOptions<T> | Store = 
             watchStore = store;
         }
 
+        // tslint:disable no-unsafe-any
         // Take mixin options and override with locally provided when set and definitively set the store
         if ((<ConnectAddons>proto.constructor).litReduxWatchConnectDefaultOptions) {
             watchOptions = {
@@ -62,6 +63,7 @@ export function watch<T = any>(path: string, options: WatchOptions<T> | Store = 
             };
             watchStore = watchStore ? watchStore : (<ConnectAddons>proto.constructor).litReduxWatchConnectDefaultStore;
         }
+        // tslint:enable no-unsafe-any
 
         // Finalize watch options
         finalWatchOptions = {
@@ -109,10 +111,13 @@ export function watch<T = any>(path: string, options: WatchOptions<T> | Store = 
 
         // Attach property and add to watch list
         Object.defineProperty(proto, name, desc);
+
+        // tslint:disable no-unsafe-any
         (<ConnectAddons>proto.constructor).litReduxWatchConnectWatchedProperties.set(name, {
             options: finalWatchOptions,
             path: watchPath,
             store: watchStore,
         });
+        // tslint:enable no-unsafe-any
     };
 }

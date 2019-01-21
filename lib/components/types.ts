@@ -1,9 +1,8 @@
-import { LitElement } from 'lit-element';
 import { Store } from 'redux';
 
 export interface ConnectAddons extends Function {
     litReduxWatchConnectWatchedProperties: Map<PropertyKey, WatchedProperty>;
-    litReduxWatchConnectDefaultStore: Store;
+    litReduxWatchConnectDefaultStore: Store | null;
     litReduxWatchConnectDefaultOptions: WatchOptions<any>;
 }
 
@@ -51,4 +50,4 @@ export interface WatchedProperty {
 
 export type Constructable<T> = new (...args: any[]) => T;
 export type ConnectMixinFunction = <T extends Constructable<any>>(superClass: T) => T;
-export type WatchDecoratorFunction = (proto: LitElement, name: PropertyKey) => void;
+export type WatchDecoratorFunction = (proto: any, name: PropertyKey) => void;

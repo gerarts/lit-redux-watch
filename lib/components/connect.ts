@@ -5,12 +5,12 @@ import { ConnectAddons, ConnectMixinFunction, Constructable, WatchedProperty, Wa
 /**
  *
  */
-export function connect<C = any>(store: Store, options: WatchOptions<C> = {}): ConnectMixinFunction {
+export function connect<C = any>(store?: Store, options: WatchOptions<C> = {}): ConnectMixinFunction {
     return <T extends Constructable<any>>(superClass: T): T => {
         return class extends superClass {
 
-            static get litReduxWatchConnectDefaultStore(): Store {
-                return store;
+            static get litReduxWatchConnectDefaultStore(): Store | null {
+                return store || null;
             }
             static get litReduxWatchConnectDefaultOptions(): WatchOptions<C> {
                 return options;
