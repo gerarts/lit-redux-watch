@@ -4,6 +4,12 @@ export interface ConnectAddons extends Function {
     litReduxWatchConnectWatchedProperties: Map<PropertyKey, WatchedProperty>;
     litReduxWatchConnectDefaultStore: Store | null;
     litReduxWatchConnectDefaultOptions: WatchOptions<any>;
+    litReduxWatchConnectProperty(
+        name: PropertyKey,
+        finalWatchOptions: FinalWatchOptions<any>,
+        finalWatchPath: string[],
+        finalWatchStore: Store,
+    ): void;
 }
 
 export type WatchOptionsCompareFunction<T> = (a?: T | null, b?: T | null) => boolean;

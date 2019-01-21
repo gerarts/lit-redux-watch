@@ -1,6 +1,6 @@
 import { Store } from 'redux';
 import { getByChain } from './getByChain';
-import { ConnectAddons, ConnectMixinFunction, Constructable, WatchedProperty, WatchOptions } from './types';
+import { ConnectAddons, ConnectMixinFunction, Constructable, FinalWatchOptions, WatchedProperty, WatchOptions } from './types';
 
 /**
  *
@@ -19,7 +19,7 @@ export function connect<C = any>(store?: Store, options: WatchOptions<C> = {}): 
             /**
              * List of all watched properties
              */
-            protected static litReduxWatchConnectWatchedProperties: Map<PropertyKey, WatchedProperty> = new Map();
+            protected static litReduxWatchConnectWatchedProperties: Map<PropertyKey, WatchedProperty>;
 
             constructor(...args: any[]) {
                 super(...args);
@@ -50,6 +50,48 @@ export function connect<C = any>(store?: Store, options: WatchOptions<C> = {}): 
                         });
                     },
                 );
+            }
+
+            /**
+             * Connect a property to object and add to the list of watchers to be connected on construct.
+             */
+            public static litReduxWatchConnectProperty(// tslint:disable-line function-name
+                name: PropertyKey,
+                finalWatchOptions: FinalWatchOptions<any>,
+                finalWatchPath: string[],
+                finalWatchStore: Store,
+            ): void {
+                if (!this.litReduxWatchConnectWatchedProperties) {
+                    this.litReduxWatchConnectWatchedProperties = new Map();
+                }
+                this.litReduxWatchConnectWatchedProperties.set(name, {
+                    options: finalWatchOptions,
+                    path: finalWatchPath,
+                    store: finalWatchStore,
+                });
+
+                // tslint:disable-next-line no-unsafe-any
+                if (this.prototype.hasOwnProperty(name)) {
+                    return;
+                }
+                const key: string = `__litReduxWatchProperty_${String(name)}`;
+                Object.defineProperty(this.prototype, name, {
+                    get(): T | undefined {
+                        // tslint:disable-next-line no-unsafe-any
+                        return this[key];
+                    },
+                    set(value: T): void {
+                        // tslint:disable no-unsafe-any
+                        const oldValue: any = this[name];
+                        this[key] = value;
+                        if (typeof this.requestUpdate === 'function') {
+                            this.requestUpdate(name, oldValue);
+                        }
+                        // tslint:enable no-unsafe-any
+                    },
+                    configurable : true,
+                    enumerable : true,
+                });
             }
         };
     };
