@@ -1,6 +1,8 @@
 import { Store } from 'redux';
 
-export interface ConnectAddons extends Function {
+export type Constructable<T> = new (...args: any[]) => T;
+
+export interface ConnectAddons extends Constructable<any> {
     litReduxWatchConnectWatchedProperties: Map<PropertyKey, WatchedProperty>;
     litReduxWatchConnectDefaultStore: Store | null;
     litReduxWatchConnectDefaultOptions: WatchOptions<any>;
@@ -54,6 +56,5 @@ export interface WatchedProperty {
     store: Store;
 }
 
-export type Constructable<T> = new (...args: any[]) => T;
 export type ConnectMixinFunction = <T extends Constructable<any>>(superClass: T) => T;
 export type WatchDecoratorFunction = (proto: any, name: PropertyKey) => void;
