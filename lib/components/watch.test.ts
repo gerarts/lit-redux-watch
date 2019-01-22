@@ -1,7 +1,6 @@
 // tslint:disable max-classes-per-file
 import { AnyAction, createStore, Reducer, Store } from 'redux';
-import { connect } from './connect';
-import { watch } from './watch';
+import { connect, watch } from '../';
 
 const defaultState: {[key: string]: any} = {
     defaultReducer: {
