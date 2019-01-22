@@ -53,6 +53,12 @@
     "typescript": "^3.2.4"
   },
   "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{ts,tsx,js,jsx}",
+      "!**/node_modules/**",
+      "!**/*.test.{ts,tsx,js,jsx}"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
