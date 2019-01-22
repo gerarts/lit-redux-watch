@@ -7,3 +7,16 @@ node_js:
   - "9"
   - "10"
   - "11"
+env:
+  global:
+    CC_TEST_REPORTER_ID=3cbb41a3520c0ada59e12a62b03c6c694dc68225c5c002258dc42e81ac3c82d4
+before_install:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+install:
+  - npm install                         # Install npm dependencies
+script:
+  - npm test                            # Frontend linting & specs
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
