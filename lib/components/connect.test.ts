@@ -1,13 +1,7 @@
 // tslint:disable max-classes-per-file
-import { connect, watch } from '../';
+import { connect, defaultWatchOptions, watch } from '../';
 import { store } from './helpers.test';
-import { ConnectAddons, FinalWatchOptions } from './types';
-
-const watchOptions: FinalWatchOptions<any> = {
-    compare: (a: any, b: any): boolean => a === b,
-    shouldUpdate: (): boolean => true,
-    transform: (a: any): any => <unknown>a,
-};
+import { ConnectAddons } from './types';
 
 interface ConnectAddonsWithUpdate extends ConnectAddons {
     requestUpdate(name?: PropertyKey, oldValue?: any): void;
@@ -22,13 +16,13 @@ test('Connect returns a class', () => {
 
 test('Connect class litReduxWatchConnectProperty adds property to litReduxWatchConnectWatchedProperties', () => {
     const result: ConnectAddons = <ConnectAddons>connect()(class A {});
-    result.litReduxWatchConnectProperty('myFancyProperty', watchOptions, [], store);
+    result.litReduxWatchConnectProperty('myFancyProperty', defaultWatchOptions(), [], store);
     expect([...result.litReduxWatchConnectWatchedProperties.keys()]).toContain('myFancyProperty');
 });
 
 test('Extended connect class litReduxWatchConnectProperty adds property to litReduxWatchConnectWatchedProperties', () => {
     const result: ConnectAddons = <ConnectAddons>class extends connect()(class A {}) {};
-    result.litReduxWatchConnectProperty('myFancyPropertyOnExtended', watchOptions, [], store);
+    result.litReduxWatchConnectProperty('myFancyPropertyOnExtended', defaultWatchOptions(), [], store);
     expect([...result.litReduxWatchConnectWatchedProperties.keys()]).toContain('myFancyPropertyOnExtended');
 });
 

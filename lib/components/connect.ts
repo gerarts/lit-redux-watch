@@ -6,15 +6,15 @@ import { ConnectAddons, ConnectMixinFunction, Constructable, FinalWatchOptions, 
  * Connect mixin to add watch functionality to a class. When used with LitElement
  * requestUpdate is called to apply updates when watched values change.
  */
-export function connect<C = any>(store?: Store, options: WatchOptions<C> = {}): ConnectMixinFunction {
+export function connect<C = any>(defaultStore?: Store, defaultOptions: WatchOptions<C> = {}): ConnectMixinFunction {
     return <T extends Constructable<any>>(superClass: T): T => {
         return class extends superClass {
 
             static get litReduxWatchConnectDefaultStore(): Store | null {
-                return store || null;
+                return defaultStore || null;
             }
             static get litReduxWatchConnectDefaultOptions(): WatchOptions<C> {
-                return options;
+                return defaultOptions;
             }
 
             /**
@@ -53,47 +53,36 @@ export function connect<C = any>(store?: Store, options: WatchOptions<C> = {}): 
                 );
             }
 
+            // tslint:disable function-name no-unsafe-any
             /**
              * Connect a property to object and add to the list of watchers to be connected on construct.
              */
-            public static litReduxWatchConnectProperty(// tslint:disable-line function-name
-                name: PropertyKey,
-                finalWatchOptions: FinalWatchOptions<any>,
-                finalWatchPath: string[],
-                finalWatchStore: Store,
-            ): void {
+            public static litReduxWatchConnectProperty(name: PropertyKey, options: FinalWatchOptions, path: string[], store: Store): void {
                 if (!this.litReduxWatchConnectWatchedProperties) {
                     this.litReduxWatchConnectWatchedProperties = new Map();
                 }
-                this.litReduxWatchConnectWatchedProperties.set(name, {
-                    options: finalWatchOptions,
-                    path: finalWatchPath,
-                    store: finalWatchStore,
-                });
+                this.litReduxWatchConnectWatchedProperties.set(name, { options, path, store });
 
-                // tslint:disable-next-line no-unsafe-any
-                if (this.prototype.hasOwnProperty(name)) {
-                    return;
+                if (!this.prototype.hasOwnProperty(name)) {
+                    const key: string = `__litReduxWatchProperty_${String(name)}`;
+
+                    Object.defineProperty(this.prototype, name, {
+                        get(): T | undefined {
+                            return this[key];
+                        },
+                        set(value: T): void {
+                            const oldValue: any = this[name];
+                            this[key] = value;
+                            if (typeof this.requestUpdate === 'function') {
+                                this.requestUpdate(name, oldValue);
+                            }
+                        },
+                        configurable : true,
+                        enumerable : true,
+                    });
                 }
-                const key: string = `__litReduxWatchProperty_${String(name)}`;
-                Object.defineProperty(this.prototype, name, {
-                    get(): T | undefined {
-                        // tslint:disable-next-line no-unsafe-any
-                        return this[key];
-                    },
-                    set(value: T): void {
-                        // tslint:disable no-unsafe-any
-                        const oldValue: any = this[name];
-                        this[key] = value;
-                        if (typeof this.requestUpdate === 'function') {
-                            this.requestUpdate(name, oldValue);
-                        }
-                        // tslint:enable no-unsafe-any
-                    },
-                    configurable : true,
-                    enumerable : true,
-                });
             }
+            // tslint:enable no-unsafe-any
         };
     };
 }

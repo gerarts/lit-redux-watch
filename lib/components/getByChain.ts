@@ -3,7 +3,7 @@
  * no value can be found undefined is returned.
  */
 export function getByChain<T = any, R = any>(object: T, path: string[]): R | null | undefined {
-    if (!path || !Array.isArray(path) || path.length === 0) {
+    if (!Array.isArray(path) || path.length === 0) {
         return <R><unknown>object;
     }
 
@@ -13,9 +13,5 @@ export function getByChain<T = any, R = any>(object: T, path: string[]): R | nul
 
     const [next, ...rest] = path;
 
-    try {
-        return getByChain<any, R>((<{[key: string]: any}>object)[next], rest);
-    } catch (_) {
-        return undefined;
-    }
+    return getByChain<any, R>((<{[key: string]: any}>object)[next], rest);
 }

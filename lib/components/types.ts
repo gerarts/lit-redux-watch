@@ -8,7 +8,7 @@ export interface ConnectAddons extends Constructable<any> {
     litReduxWatchConnectDefaultOptions: WatchOptions<any>;
     litReduxWatchConnectProperty(
         name: PropertyKey,
-        finalWatchOptions: FinalWatchOptions<any>,
+        finalWatchOptions: FinalWatchOptions,
         finalWatchPath: string[],
         finalWatchStore: Store,
     ): void;
@@ -43,7 +43,7 @@ export interface WatchOptions<T> {
     transform?: WatchOptionsTransformFunction<T>;
 }
 
-export interface FinalWatchOptions<T> extends WatchOptions<T> {
+export interface FinalWatchOptions<T = any> extends WatchOptions<T> {
     compare: WatchOptionsCompareFunction<T>;
     noInit?: boolean;
     shouldUpdate: WatchOptionsShouldUpdateFunction<T>;
@@ -51,7 +51,7 @@ export interface FinalWatchOptions<T> extends WatchOptions<T> {
 }
 
 export interface WatchedProperty {
-    options: FinalWatchOptions<any>;
+    options: FinalWatchOptions;
     path: string[];
     store: Store;
 }
