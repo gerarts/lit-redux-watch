@@ -3,7 +3,8 @@ import { getByChain } from './getByChain';
 import { ConnectAddons, ConnectMixinFunction, Constructable, FinalWatchOptions, WatchedProperty, WatchOptions } from './types';
 
 /**
- *
+ * Connect mixin to add watch functionality to a class. When used with LitElement
+ * requestUpdate is called to apply updates when watched values change.
  */
 export function connect<C = any>(store?: Store, options: WatchOptions<C> = {}): ConnectMixinFunction {
     return <T extends Constructable<any>>(superClass: T): T => {

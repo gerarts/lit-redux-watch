@@ -44,6 +44,7 @@
         ],
         "linebreak-style": true,
         "match-default-export-name": false,
+        "missing-jsdoc": false,
         "newline-per-chained-call": false,
         "no-any": false,
         "no-arg": true,

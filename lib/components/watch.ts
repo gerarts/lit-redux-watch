@@ -2,7 +2,7 @@ import { Store } from 'redux';
 import { ConnectAddons, FinalWatchOptions, WatchDecoratorFunction, WatchOptions } from './types';
 
 /**
- *
+ * Decorator to attach a property to a redux store.
  */
 export function watch<T = any>(path: string, options?: WatchOptions<T>, store?: Store): WatchDecoratorFunction;
 export function watch<T = any>(path: string, store: Store): WatchDecoratorFunction;

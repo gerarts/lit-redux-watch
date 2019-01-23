@@ -20,6 +20,9 @@ const reducer: Reducer = (state: {[key: string]: any} = defaultState, a: AnyActi
     }
 };
 
+/**
+ * Small redux store to be used in tests
+ */
 export const store: Store = createStore(reducer);
 
 test('Should be a store', () => {
