@@ -17,8 +17,8 @@ export function watch<T = any>(path: string, options?: WatchOptions<T>, store?: 
 export function watch<T = any>(path: string, store: Store): WatchDecoratorFunction;
 export function watch<T = any>(path: string, options: WatchOptions<T> | Store = {}, store?: Store): WatchDecoratorFunction {
     return (proto: any, name: PropertyKey): void => {
-        let watchOptions: WatchOptions<T> = {};
-        let watchStore: Store | null = null;
+        let watchOptions: WatchOptions<T> | undefined;
+        let watchStore: Store | undefined;
 
         if (options && typeof (<Store>options).getState === 'function') {
             watchStore = <Store>options;
@@ -35,18 +35,13 @@ export function watch<T = any>(path: string, options: WatchOptions<T> | Store = 
             watchStore = (<ConnectAddons>proto.constructor).litReduxWatchConnectDefaultStore;
         }
 
-        // Take mixin options and override with locally provided when set and definitively set the store
-        watchOptions = {
+        // Take mixin options and override with locally provided when set and definitively set the store and finalize watch options
+        const finalWatchOptions: FinalWatchOptions<T> = {
+            ...defaultWatchOptions<T>(),
             ...<WatchOptions<T>>(<ConnectAddons>proto.constructor).litReduxWatchConnectDefaultOptions,
             ...watchOptions,
         };
         // tslint:enable no-unsafe-any
-
-        // Finalize watch options
-        const finalWatchOptions: FinalWatchOptions<T> = {
-            ...defaultWatchOptions<T>(),
-            ...watchOptions,
-        };
 
         // Check if a store is attached
         if (!watchStore) {

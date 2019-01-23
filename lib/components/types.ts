@@ -4,7 +4,7 @@ export type Constructable<T> = new (...args: any[]) => T;
 
 export interface ConnectAddons extends Constructable<any> {
     litReduxWatchConnectWatchedProperties: Map<PropertyKey, WatchedProperty>;
-    litReduxWatchConnectDefaultStore: Store | null;
+    litReduxWatchConnectDefaultStore?: Store;
     litReduxWatchConnectDefaultOptions: WatchOptions<any>;
     litReduxWatchConnectProperty(
         name: PropertyKey,

@@ -6,14 +6,14 @@ import { ConnectAddons, ConnectMixinFunction, Constructable, FinalWatchOptions, 
  * Connect mixin to add watch functionality to a class. When used with LitElement
  * requestUpdate is called to apply updates when watched values change.
  */
-export function connect<C = any>(defaultStore?: Store, defaultOptions: WatchOptions<C> = {}): ConnectMixinFunction {
+export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOptions<C>): ConnectMixinFunction {
     return <T extends Constructable<any>>(superClass: T): T => {
         return class extends superClass {
 
-            static get litReduxWatchConnectDefaultStore(): Store | null {
-                return defaultStore || null;
+            static get litReduxWatchConnectDefaultStore(): Store | undefined {
+                return defaultStore;
             }
-            static get litReduxWatchConnectDefaultOptions(): WatchOptions<C> {
+            static get litReduxWatchConnectDefaultOptions(): WatchOptions<C> | undefined {
                 return defaultOptions;
             }
 
