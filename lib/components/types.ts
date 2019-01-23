@@ -43,6 +43,20 @@ export interface WatchOptions<T> {
     transform?: WatchOptionsTransformFunction<T>;
 }
 
+export interface WatchDeclaration extends WatchOptions<any> {
+    /**
+     * The path to the value in the redux store to be watched.
+     */
+    path: string;
+    /**
+     * The store to be watched for updates.
+     */
+    store?: Store;
+}
+export interface WatchDeclarations {
+    [key: string]: WatchDeclaration;
+}
+
 export interface FinalWatchOptions<T = any> extends WatchOptions<T> {
     compare: WatchOptionsCompareFunction<T>;
     noInit?: boolean;

@@ -1,9 +1,12 @@
 // tslint:disable max-classes-per-file
 import { connect, defaultWatchOptions, watch } from '../';
 import { store } from './helpers.test';
-import { ConnectAddons } from './types';
+import { ConnectAddons, WatchDeclarations } from './types';
 
 interface ConnectAddonsWithUpdate extends ConnectAddons {
+    observedAttributes: string[];
+    finalized: boolean;
+    finalize(): void;
     requestUpdate(name?: PropertyKey, oldValue?: any): void;
 }
 
@@ -39,6 +42,201 @@ test('Connect created property calls requestUpdate (LitElement integration)', (d
         @watch('defaultReducer.nested.values')
         public readonly property?: string;
     }
+
+    // Doing something with value
+    return new Test();
+});
+
+test('Connect created property via static get watch() should throw when store is missing', () => {
+    expect(() => {
+        /**
+         * Test class
+         */
+        class Test extends (<ConnectAddonsWithUpdate>connect()(class A {
+            public static finalized: boolean;
+
+            // tslint:disable-next-line function-name
+            public static finalize(): void {
+                this.finalized = true;
+            }
+        })) {
+            public static get watch(): WatchDeclarations {
+                return {
+                    property: {
+                        path: 'defaultReducer.nested.values',
+                    },
+                };
+            }
+            public readonly property?: string;
+        }
+
+        Test.finalize();
+
+        // Doing something with value
+        return new Test();
+    }).toThrow();
+});
+
+test('Connect created property via static get watch() should not throw when store is in connect', () => {
+    expect(() => {
+        /**
+         * Test class
+         */
+        class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A {
+            public static finalized: boolean;
+
+            // tslint:disable-next-line function-name
+            public static finalize(): void {
+                this.finalized = true;
+            }
+        })) {
+            public static get watch(): WatchDeclarations {
+                return {
+                    property: {
+                        path: 'defaultReducer.nested.values',
+                    },
+                };
+            }
+            public readonly property?: string;
+        }
+
+        Test.finalize();
+
+        // Doing something with value
+        return new Test();
+    }).not.toThrow();
+});
+
+test('Connect created property via static get watch() should not throw when store is in watch declaration', () => {
+    expect(() => {
+        /**
+         * Test class
+         */
+        class Test extends (<ConnectAddonsWithUpdate>connect()(class A {
+            public static finalized: boolean;
+
+            // tslint:disable-next-line function-name
+            public static finalize(): void {
+                this.finalized = true;
+            }
+        })) {
+            public static get watch(): WatchDeclarations {
+                return {
+                    property: {
+                        path: 'defaultReducer.nested.values',
+                        store,
+                    },
+                };
+            }
+            public readonly property?: string;
+        }
+
+        Test.finalize();
+
+        // Doing something with value
+        return new Test();
+    }).not.toThrow();
+});
+
+test('Connect created property via static get watch() calls requestUpdate (LitElement integration)', (done: jest.DoneCallback) => {
+    /**
+     * Test class
+     */
+    class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A {
+        public static finalized: boolean;
+
+        // tslint:disable-next-line function-name
+        public static finalize(): void {
+            this.finalized = true;
+        }
+
+        // tslint:disable-next-line function-name
+        public requestUpdate(): void {
+            done(); // Call jest callback
+        }
+    })) {
+        public static get watch(): WatchDeclarations {
+            return {
+                property: {
+                    path: 'defaultReducer.nested.values',
+                },
+            };
+        }
+        public readonly property?: string;
+    }
+
+    Test.finalize();
+
+    // Doing something with value
+    return new Test();
+});
+
+test('Connect created property via static get watch() calls requestUpdate (LitElement integration)', (done: jest.DoneCallback) => {
+    /**
+     * Test class
+     */
+    class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A {
+        public static finalized: boolean;
+
+        // tslint:disable-next-line function-name
+        public static finalize(): void {
+            this.finalized = true;
+            done(); // Call jest callback
+        }
+    })) {
+        public static get watch(): WatchDeclarations {
+            return {
+                property: {
+                    path: 'defaultReducer.nested.values',
+                },
+            };
+        }
+        public readonly property?: string;
+    }
+
+    Test.finalize();
+
+    // Doing something with value
+    return new Test();
+});
+
+test('Connect double finalize only called once', (done: jest.DoneCallback) => {
+    let count: number = 0;
+    const doneWrap: (() => void) = (): void => {
+        count++;
+        if (count > 1) {
+            throw Error('Too many count');
+        } else if (count === 1) {
+            setTimeout(() => {
+                done();
+            }, 100);
+        }
+    };
+
+    /**
+     * Test class
+     */
+    class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A {
+        public static finalized: boolean;
+
+        // tslint:disable-next-line function-name
+        public static finalize(): void {
+            this.finalized = true;
+            doneWrap(); // Call jest callback
+        }
+    })) {
+        public static get watch(): WatchDeclarations {
+            return {
+                property: {
+                    path: 'defaultReducer.nested.values',
+                },
+            };
+        }
+        public readonly property?: string;
+    }
+
+    Test.finalize();
+    Test.finalize();
 
     // Doing something with value
     return new Test();
