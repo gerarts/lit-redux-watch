@@ -27,6 +27,21 @@ test('Watcher connected store should not throw', () => {
     }).not.toThrow();
 });
 
+test('Watcher connected store with options should not throw', () => {
+    expect(() => {
+        /**
+         * Setting up classes with empty mixin and with watchers with store as parameter should not throw
+         */
+        class ExtendedClass extends connect()(BaseClass) {
+            @watch('a.random.path', {}, store)
+            public watchedProp: string = 'watched';
+        }
+
+        // Doing something with the class.
+        return new ExtendedClass();
+    }).not.toThrow();
+});
+
 test('Mixin connected store should not throw', () => {
     expect(() => {
         /**
