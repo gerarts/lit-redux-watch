@@ -1,27 +1,6 @@
 // tslint:disable max-classes-per-file
-import { AnyAction, createStore, Reducer, Store } from 'redux';
 import { connect, watch } from '../';
-
-const defaultState: {[key: string]: any} = {
-    defaultReducer: {
-        nested: {
-            values: 'data',
-        },
-    },
-};
-const reducer: Reducer = (state: {[key: string]: any} = defaultState, a: AnyAction): any => {
-    switch (a.type) {
-        case 'MERGE':
-            return {
-                ...(state || {}),
-                ...(a.data || {}),
-            };
-        default:
-            return state || {};
-    }
-};
-
-const store: Store = createStore(reducer);
+import { store } from './helpers.test';
 
 /**
  * Simple base class for testing

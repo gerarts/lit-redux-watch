@@ -89,10 +89,6 @@ test('Get from {path: "abc"} deep path yields undefined', () => {
     expect(getByChain({ path: 'abc' }, context.deepPath)).toEqual(undefined);
 });
 
-test('Get from {pathNotExist: "abc"} no path yields {pathNotExist: "abc"}', () => {
-    expect(getByChain({ pathNotExist: 'abc' }, context.noPath)).toEqual({ pathNotExist: 'abc' });
-});
-
 test('Get from {pathNotExist: "abc"} shallow path yields "abc"', () => {
     expect(getByChain({ pathNotExist: 'abc' }, context.shallowPath)).toEqual(undefined);
 });

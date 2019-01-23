@@ -1,3 +1,7 @@
+/**
+ * Gets a value from an object by a path separated with dots. When
+ * no value can be found undefined is returned.
+ */
 export function getByChain<T = any, R = any>(object: T, path: string[]): R | null | undefined {
     if (!path || !Array.isArray(path) || path.length === 0) {
         return <R><unknown>object;
