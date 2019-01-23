@@ -1,12 +1,7 @@
 cache: npm
 language: node_js
 node_js:
-  - "6"
-  - "7"
-  - "8"
-  - "9"
-  - "10"
-  - "11"
+  - "node"
 env:
   global:
     CC_TEST_REPORTER_ID=3cbb41a3520c0ada59e12a62b03c6c694dc68225c5c002258dc42e81ac3c82d4
