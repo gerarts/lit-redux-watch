@@ -73,11 +73,11 @@ class UserPage extends connect(store)(LitElement) {
 To use lit-redux-watch in a class, use the `connect` mixin.
 
 ```ts
-class MyElement connect()(LitElement) {}
+class MyElement extends connect()(LitElement) {}
 
-class MyElement connect(store)(LitElement) {}
+class MyElement extends connect(store)(LitElement) {}
 
-class MyElement connect(store, options)(LitElement) {}
+class MyElement extends connect(store, options)(LitElement) {}
 ```
 
 When no store is provided via `connect` one must be provided via `static get watch`/`@watch`.

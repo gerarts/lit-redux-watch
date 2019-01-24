@@ -113,11 +113,11 @@
 				<h3 id="setup">Setup</h3>
 				<h4 id="connect-store-options-"><code>connect([store[, options]])</code></h4>
 				<p>To use lit-redux-watch in a class, use the <code>connect</code> mixin.</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">class</span> MyElement connect()(LitElement) {}
+				<pre><code class="language-ts"><span class="hljs-keyword">class</span> MyElement <span class="hljs-keyword">extends</span> connect()(LitElement) {}
 
-<span class="hljs-keyword">class</span> MyElement connect(store)(LitElement) {}
+<span class="hljs-keyword">class</span> MyElement <span class="hljs-keyword">extends</span> connect(store)(LitElement) {}
 
-<span class="hljs-keyword">class</span> MyElement connect(store, options)(LitElement) {}</code></pre>
+<span class="hljs-keyword">class</span> MyElement <span class="hljs-keyword">extends</span> connect(store, options)(LitElement) {}</code></pre>
 				<p>When no store is provided via <code>connect</code> one must be provided via <code>static get watch</code>/<code>@watch</code>.</p>
 				<h4 id="-watch-path-options-store-"><code>@watch(path[, options][, store])</code></h4>
 				<p>To create a watching property, use the <code>@watch</code> decorator.</p>
