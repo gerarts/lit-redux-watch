@@ -8,7 +8,7 @@
     "build": "tsc -p tsconfig.json",
     "ci:test": "npm-run-all -l build test:*",
     "clean": "del-cli dist",
-    "docs": "typedoc --readme README.md --tsconfig tsconfig.json --mode modules --excludeNotExported --excludePrivate --ignoreCompilerErrors --exclude '{**/*test*,**/node_modules/**,**/test/**}' --out ./docs lib/**/*.ts",
+    "docs": "typedoc",
     "prepare": "npm-run-all -l build",
     "test": "npm-run-all build test:*",
     "test:jest": "NODE_ENV=test jest",
