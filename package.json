@@ -73,8 +73,5 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     }
-  },
-  "engines": {
-    "node": "^7.0.0"
   }
 }
