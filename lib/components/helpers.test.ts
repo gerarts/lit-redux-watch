@@ -1,6 +1,14 @@
 import { AnyAction, createStore, Reducer, Store } from 'redux';
 
-const defaultState: {[key: string]: any} = {
+export interface DefaultState {
+    defaultReducer: {
+        nested: {
+            values: string;
+        };
+    };
+}
+
+const defaultState: DefaultState = {
     defaultReducer: {
         nested: {
             values: 'data',
@@ -8,7 +16,7 @@ const defaultState: {[key: string]: any} = {
     },
 };
 
-const reducer: Reducer = (state: {[key: string]: any} = defaultState, a: AnyAction): any => {
+const reducer: Reducer = (state: DefaultState = defaultState, a: AnyAction): any => {
     switch (a.type) {
         case 'MERGE':
             return {

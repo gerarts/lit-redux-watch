@@ -1,21 +1,21 @@
 import { Store } from 'redux';
-import { ConnectAddons, FinalWatchOptions, WatchDecoratorFunction, WatchOptions } from './types';
+import { ConnectAddons, FinalWatchOptions, WatchDecoratorFunction, WatchOptions, WatchSource } from './types';
 
 /**
  * Default watch options with a simple strict equals compare.
  */
 export const defaultWatchOptions: (<T = any>() => FinalWatchOptions<T>) = <T = any>(): FinalWatchOptions<T> => ({
-    compare: (a?: T | null, b?: T | null): boolean => a === b,
+    compare: (a?: T, b?: T): boolean => a === b,
     shouldUpdate: (): boolean => true,
-    transform: (nextValue?: T | null): T | null | undefined => nextValue,
+    transform: (nextValue?: T): T | undefined => nextValue,
 });
 
 /**
  * Decorator to attach a property to a redux store.
  */
-export function watch<T = any>(path: string, options?: WatchOptions<T>, store?: Store): WatchDecoratorFunction;
-export function watch<T = any>(path: string, store: Store): WatchDecoratorFunction;
-export function watch<T = any>(path: string, options: WatchOptions<T> | Store = {}, store?: Store): WatchDecoratorFunction {
+export function watch<T = any>(source: WatchSource, options?: WatchOptions<T>, store?: Store): WatchDecoratorFunction;
+export function watch<T = any>(source: WatchSource, store: Store): WatchDecoratorFunction;
+export function watch<T = any>(source: WatchSource, options: WatchOptions<T> | Store = {}, store?: Store): WatchDecoratorFunction {
     return (proto: any, name: PropertyKey): void => {
         let watchOptions: WatchOptions<T> | undefined;
         let watchStore: Store | undefined;
@@ -45,10 +45,10 @@ export function watch<T = any>(path: string, options: WatchOptions<T> | Store = 
 
         // Check if a store is attached
         if (!watchStore) {
-            throw Error(`Missing store! Could not attach ${path} to ${String(name)}. Read the documentation for more information.`);
+            throw Error(`Missing store! Could not attach ${source} to ${String(name)}. Read the documentation for more information.`);
         }
 
         // tslint:disable-next-line no-unsafe-any
-        (<ConnectAddons>proto.constructor).litReduxWatchConnectProperty(name, finalWatchOptions, (path || '').split('.'), watchStore);
+        (<ConnectAddons>proto.constructor).litReduxWatchConnectProperty(name, finalWatchOptions, source, watchStore);
     };
 }

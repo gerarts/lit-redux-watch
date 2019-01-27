@@ -1,6 +1,7 @@
 import { Store } from 'redux';
 
 export type Constructable<T> = new (...args: any[]) => T;
+export type WatchSource<T = any> = string | ((state: any) => T | undefined);
 
 export interface ConnectAddons extends Constructable<any> {
     litReduxWatchConnectWatchedProperties: Map<PropertyKey, WatchedProperty>;
@@ -9,14 +10,14 @@ export interface ConnectAddons extends Constructable<any> {
     litReduxWatchConnectProperty(
         name: PropertyKey,
         finalWatchOptions: FinalWatchOptions,
-        finalWatchPath: string[],
+        finalWatchSource: WatchSource,
         finalWatchStore: Store,
     ): void;
 }
 
-export type WatchOptionsCompareFunction<T> = (a?: T | null, b?: T | null) => boolean;
-export type WatchOptionsShouldUpdateFunction<T> = (nextValue?: T | null, currentValue?: T | null, path?: string) => boolean;
-export type WatchOptionsTransformFunction<T> = (nextValue?: T | null, oldValue?: T | null, path?: string) => T | null | undefined;
+export type WatchOptionsCompareFunction<T> = (a?: T, b?: T) => boolean;
+export type WatchOptionsShouldUpdateFunction<T> = (nextValue?: T, currentValue?: T, source?: WatchSource<T>) => boolean;
+export type WatchOptionsTransformFunction<T> = (nextValue?: T, oldValue?: T, source?: WatchSource<T>) => T | undefined;
 
 export interface WatchOptions<T> {
     /**
@@ -45,9 +46,11 @@ export interface WatchOptions<T> {
 
 export interface WatchDeclaration extends WatchOptions<any> {
     /**
-     * The path to the value in the redux store to be watched.
+     * The source to be watched. This can be an object path as a dot-separated
+     * string or a function that takes the current state and returns the value
+     * that should be used as the nextValue.
      */
-    path: string;
+    source: WatchSource;
     /**
      * The store to be watched for updates.
      */
@@ -66,7 +69,7 @@ export interface FinalWatchOptions<T = any> extends WatchOptions<T> {
 
 export interface WatchedProperty {
     options: FinalWatchOptions;
-    path: string[];
+    source: WatchSource;
     store: Store;
 }
 

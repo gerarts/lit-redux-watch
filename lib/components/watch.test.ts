@@ -1,6 +1,7 @@
 // tslint:disable max-classes-per-file
+import { createSelector, Selector } from 'reselect';
 import { connect, watch } from '../';
-import { store } from './helpers.test';
+import { DefaultState, store } from './helpers.test';
 
 /**
  * Simple base class for testing
@@ -82,6 +83,22 @@ test('Value from store should be loaded', () => {
     }
 
     expect(new ValueFromReducer().prop).toEqual({ nested: { values: 'data' } });
+});
+
+test('Value from store should be able to be loaded with reselect', () => {
+    const reselector: Selector<DefaultState, any> = createSelector(
+        (state: DefaultState): DefaultState['defaultReducer'] => state.defaultReducer,
+        (fromGetter: DefaultState['defaultReducer']): DefaultState['defaultReducer']['nested'] => fromGetter.nested,
+    );
+    /**
+     * Setting up classes with an existing reducer should init it with the value by default
+     */
+    class ValueFromReducer extends connect(store)(BaseClass) {
+        @watch(reselector)
+        public prop?: object;
+    }
+
+    expect(new ValueFromReducer().prop).toEqual({ values: 'data' });
 });
 
 test('Nested value from store should be loaded', () => {

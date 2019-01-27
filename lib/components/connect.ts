@@ -1,6 +1,6 @@
 // tslint:disable max-func-body-length
 import { Store } from 'redux';
-import { getByChain } from './getByChain';
+import { getValue } from './getValue';
 import {
     ConnectAddons,
     ConnectMixinFunction,
@@ -9,6 +9,7 @@ import {
     WatchDeclarations,
     WatchedProperty,
     WatchOptions,
+    WatchSource,
 } from './types';
 import { defaultWatchOptions } from './watch';
 
@@ -45,24 +46,24 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
                 // Attach all watchers
                 ((<ConnectAddons>this.constructor).litReduxWatchConnectWatchedProperties || new Map()).forEach(
                     (property: WatchedProperty, name: PropertyKey) => {
-                        const { options: watchOptions, path, store: watchStore } = property;
+                        const { options: watchOptions, source, store: watchStore } = property;
                         const { compare, noInit, shouldUpdate, transform } = watchOptions;
 
                         // This will always hold the current value (pre-transform)
-                        let currentValue: any = getByChain(watchStore.getState(), path);
+                        let currentValue: any = getValue(watchStore, source);
 
                         // Set the value on init if noInit was not set to true
                         if (!noInit) {
-                            this[String(name)] = transform(currentValue, undefined, path.join('.'));
+                            this[String(name)] = transform(currentValue, undefined, source);
                         }
 
                         watchStore.subscribe(() => {
-                            const nextValue: any = getByChain(watchStore.getState(), path);
+                            const nextValue: any = getValue(watchStore, source);
                             if (!compare(currentValue, nextValue)) {
-                                if (shouldUpdate(nextValue, currentValue, path.join('.'))) {
+                                if (shouldUpdate(nextValue, currentValue, source)) {
                                     const oldValue: any = currentValue;
                                     currentValue = nextValue;
-                                    this[String(name)] = transform(currentValue, oldValue, path.join('.'));
+                                    this[String(name)] = transform(currentValue, oldValue, source);
                                 }
                             }
                         });
@@ -74,11 +75,16 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
             /**
              * Connect a property to object and add to the list of watchers to be connected on construct.
              */
-            public static litReduxWatchConnectProperty(name: PropertyKey, options: FinalWatchOptions, path: string[], store: Store): void {
+            public static litReduxWatchConnectProperty(
+                name: PropertyKey,
+                options: FinalWatchOptions,
+                source: WatchSource,
+                store: Store,
+            ): void {
                 if (!this.litReduxWatchConnectWatchedProperties) {
                     this.litReduxWatchConnectWatchedProperties = new Map();
                 }
-                this.litReduxWatchConnectWatchedProperties.set(name, { options, path, store });
+                this.litReduxWatchConnectWatchedProperties.set(name, { options, source, store });
 
                 if (!this.prototype.hasOwnProperty(name)) {
                     const key: string = `__litReduxWatchProperty_${String(name)}`;
@@ -122,12 +128,14 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
                 if (this.hasOwnProperty('watch')) {
                     const watched: WatchDeclarations = this.watch;
                     [...Object.getOwnPropertyNames(watched)].forEach((key: string): void => {
-                        const { path, store, ...options } = watched[key];
+                        const { source, store, ...options } = watched[key];
                         const finalStore: Store | undefined = store || this.litReduxWatchConnectDefaultStore;
 
                         if (!finalStore) {
                             throw Error(
-                                `Missing store! Could not attach ${path} to ${String(name)}. Read the documentation for more information.`,
+                                `Missing store! Could not attach ${String(source)} to ${
+                                    String(name)
+                                }. Read the documentation for more information.`,
                             );
                         }
 
@@ -135,7 +143,7 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
                             ...defaultWatchOptions(),
                             ...this.litReduxWatchConnectDefaultOptions,
                             ...options,
-                        }, path.split('.'), finalStore);
+                        }, source, finalStore);
                     });
                 }
             }

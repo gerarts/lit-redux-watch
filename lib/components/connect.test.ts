@@ -19,13 +19,13 @@ test('Connect returns a class', () => {
 
 test('Connect class litReduxWatchConnectProperty adds property to litReduxWatchConnectWatchedProperties', () => {
     const result: ConnectAddons = <ConnectAddons>connect()(class A {});
-    result.litReduxWatchConnectProperty('myFancyProperty', defaultWatchOptions(), [], store);
+    result.litReduxWatchConnectProperty('myFancyProperty', defaultWatchOptions(), '', store);
     expect([...result.litReduxWatchConnectWatchedProperties.keys()]).toContain('myFancyProperty');
 });
 
 test('Extended connect class litReduxWatchConnectProperty adds property to litReduxWatchConnectWatchedProperties', () => {
     const result: ConnectAddons = <ConnectAddons>class extends connect()(class A {}) {};
-    result.litReduxWatchConnectProperty('myFancyPropertyOnExtended', defaultWatchOptions(), [], store);
+    result.litReduxWatchConnectProperty('myFancyPropertyOnExtended', defaultWatchOptions(), '', store);
     expect([...result.litReduxWatchConnectWatchedProperties.keys()]).toContain('myFancyPropertyOnExtended');
 });
 
@@ -63,7 +63,7 @@ test('Connect created property via static get watch() should throw when store is
             public static get watch(): WatchDeclarations {
                 return {
                     property: {
-                        path: 'defaultReducer.nested.values',
+                        source: 'defaultReducer.nested.values',
                     },
                 };
             }
@@ -93,7 +93,7 @@ test('Connect created property via static get watch() should not throw when stor
             public static get watch(): WatchDeclarations {
                 return {
                     property: {
-                        path: 'defaultReducer.nested.values',
+                        source: 'defaultReducer.nested.values',
                     },
                 };
             }
@@ -123,7 +123,7 @@ test('Connect created property via static get watch() should not throw when stor
             public static get watch(): WatchDeclarations {
                 return {
                     property: {
-                        path: 'defaultReducer.nested.values',
+                        source: 'defaultReducer.nested.values',
                         store,
                     },
                 };
@@ -158,7 +158,7 @@ test('Connect created property via static get watch() calls requestUpdate (LitEl
         public static get watch(): WatchDeclarations {
             return {
                 property: {
-                    path: 'defaultReducer.nested.values',
+                    source: 'defaultReducer.nested.values',
                 },
             };
         }
@@ -187,7 +187,7 @@ test('Connect created property via static get watch() calls requestUpdate (LitEl
         public static get watch(): WatchDeclarations {
             return {
                 property: {
-                    path: 'defaultReducer.nested.values',
+                    source: 'defaultReducer.nested.values',
                 },
             };
         }
@@ -228,7 +228,7 @@ test('Connect double finalize only called once', (done: jest.DoneCallback) => {
         public static get watch(): WatchDeclarations {
             return {
                 property: {
-                    path: 'defaultReducer.nested.values',
+                    source: 'defaultReducer.nested.values',
                 },
             };
         }
