@@ -19,7 +19,7 @@ npm i lit-redux-watch
 
 #### With the `@watch` decorator
 
-This example uses TypeScript with decorators to register properties with watchers. Deorators are an experimental feature but can be used by enabling them in your `tsconfig.json`. More information can be found in the [TypeScript Documentation](https://www.typescriptlang.org/docs/handbook/decorators.html).
+This example uses TypeScript with decorators to register properties with watchers. Decorators are an experimental feature but can be used by enabling them in your `tsconfig.json`. More information can be found in the [TypeScript Documentation](https://www.typescriptlang.org/docs/handbook/decorators.html).
 
 The [TC39 proposed decorators](http://github.com/tc39/proposal-decorators) which are currently in [Stage 2](https://github.com/tc39/proposals#stage-2) will be supported in the future.
 
