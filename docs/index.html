@@ -160,7 +160,8 @@ userLanguages?: <span class="hljs-built_in">string</span>[];</code></pre>
 				<h3 id="source">Source</h3>
 				<h4 id="path-string-source">Path-string source</h4>
 				<p>A simple path-string can be used as a source.</p>
-				<pre><code class="language-ts"><span class="hljs-string">'shop.items'</span></code></pre>
+				<pre><code class="language-ts"><span class="hljs-meta">@watch</span>(<span class="hljs-string">'shop.items'</span>)
+shopItems?: ShopItem[];</code></pre>
 				<p>Path-strings are like object paths, so the above maps to:</p>
 				<pre><code class="language-ts">store.getState().shop.items</code></pre>
 				<p>The difference is that if the string-path can not be traversed all the way <code>undefined</code> is returned instead of an error being thrown.</p>
@@ -169,7 +170,7 @@ userLanguages?: <span class="hljs-built_in">string</span>[];</code></pre>
 				<pre><code class="language-ts"><span class="hljs-meta">@watch</span>(<span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> state.user.firstName)
 userFirstName?: <span class="hljs-built_in">string</span>;</code></pre>
 				<p>The function gets called with the store state as the first parameter and should return the value for lit-redux-watch to use.</p>
-				<h4 id="reselect-selector-source"><a href="https://github.com/reduxjs/reselect">Reselect</a> selector source</h4>
+				<h4 id="reselect-selector-source">Reselect selector source</h4>
 				<p><a href="https://github.com/reduxjs/reselect">Reselect</a> selectors can also be used as a source since they return a function compatible with the pattern mentioned in <a href="#function-source">Function source</a>.</p>
 				<p>Simply create a selector...</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">const</span> shopItemsSelector = <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> state.shop.items;

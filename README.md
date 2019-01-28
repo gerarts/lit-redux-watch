@@ -140,7 +140,8 @@ Options and stores provided via `static get watch`/`@watch` override those provi
 A simple path-string can be used as a source.
 
 ```ts
-'shop.items'
+@watch('shop.items')
+shopItems?: ShopItem[];
 ```
 
 Path-strings are like object paths, so the above maps to:
@@ -162,7 +163,7 @@ userFirstName?: string;
 
 The function gets called with the store state as the first parameter and should return the value for lit-redux-watch to use.
 
-#### [Reselect](https://github.com/reduxjs/reselect) selector source
+#### Reselect selector source
 
 [Reselect](https://github.com/reduxjs/reselect) selectors can also be used as a source since they return a function compatible with the pattern mentioned in [Function source](#function-source).
 
