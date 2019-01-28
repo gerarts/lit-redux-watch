@@ -1,6 +1,6 @@
 {
   "name": "lit-redux-watch",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "Create properties in LitElements that watch for updates in a redux store",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
