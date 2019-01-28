@@ -1,6 +1,6 @@
 // tslint:disable max-func-body-length
 import { Store } from 'redux';
-import { getValue } from './getValue';
+import { getValueFromStore } from './getValueFromStore';
 import {
     ConnectAddons,
     ConnectMixinFunction,
@@ -50,7 +50,7 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
                         const { compare, noInit, shouldUpdate, transform } = watchOptions;
 
                         // This will always hold the current value (pre-transform)
-                        let currentValue: any = getValue(watchStore, source);
+                        let currentValue: any = getValueFromStore(watchStore, source);
 
                         // Set the value on init if noInit was not set to true
                         if (!noInit) {
@@ -58,7 +58,7 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
                         }
 
                         watchStore.subscribe(() => {
-                            const nextValue: any = getValue(watchStore, source);
+                            const nextValue: any = getValueFromStore(watchStore, source);
                             if (!compare(currentValue, nextValue)) {
                                 if (shouldUpdate(nextValue, currentValue, source)) {
                                     const oldValue: any = currentValue;
@@ -81,9 +81,7 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
                 source: WatchSource,
                 store: Store,
             ): void {
-                if (!this.litReduxWatchConnectWatchedProperties) {
-                    this.litReduxWatchConnectWatchedProperties = new Map();
-                }
+                this.litReduxWatchEnsureConnectWatchedProperties();
                 this.litReduxWatchConnectWatchedProperties.set(name, { options, source, store });
 
                 if (!this.prototype.hasOwnProperty(name)) {
@@ -105,16 +103,10 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
                     });
                 }
             }
-            // tslint:enable no-unsafe-any
 
-            // tslint:disable no-unsafe-any
             protected static finalize(): void {
                 if (this.finalized) {
                     return;
-                }
-
-                if (!this.litReduxWatchConnectWatchedProperties) {
-                    this.litReduxWatchConnectWatchedProperties = new Map();
                 }
 
                 // finalize any superclasses
@@ -125,6 +117,16 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
                 this.finalized = true;
 
                 // Attach watchables
+                this.litReduxWatchAttachWatchables();
+            }
+
+            private static litReduxWatchEnsureConnectWatchedProperties(): void {
+                if (!this.litReduxWatchConnectWatchedProperties) {
+                    this.litReduxWatchConnectWatchedProperties = new Map();
+                }
+            }
+
+            private static litReduxWatchAttachWatchables(): void {
                 if (this.hasOwnProperty('watch')) {
                     const watched: WatchDeclarations = this.watch;
                     [...Object.getOwnPropertyNames(watched)].forEach((key: string): void => {
@@ -147,7 +149,6 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
                     });
                 }
             }
-            // tslint:enable no-unsafe-any
         };
     };
 }
