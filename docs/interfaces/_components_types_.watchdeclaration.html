@@ -89,8 +89,8 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_components_types_.watchdeclaration.html#compare" class="tsd-kind-icon">compare</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_components_types_.watchdeclaration.html#noinit" class="tsd-kind-icon">no<wbr>Init</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_components_types_.watchdeclaration.html#path" class="tsd-kind-icon">path</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_components_types_.watchdeclaration.html#shouldupdate" class="tsd-kind-icon">should<wbr>Update</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_components_types_.watchdeclaration.html#source" class="tsd-kind-icon">source</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_components_types_.watchdeclaration.html#store" class="tsd-kind-icon">store</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_components_types_.watchdeclaration.html#transform" class="tsd-kind-icon">transform</a></li>
 							</ul>
@@ -107,7 +107,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_types_.watchoptions.html">WatchOptions</a>.<a href="_components_types_.watchoptions.html#compare">compare</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/ebfcac5/lib/components/types.ts#L25">components/types.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/d3135ef/lib/components/types.ts#L26">components/types.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -123,7 +123,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_types_.watchoptions.html">WatchOptions</a>.<a href="_components_types_.watchoptions.html#noinit">noInit</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/ebfcac5/lib/components/types.ts#L31">components/types.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/d3135ef/lib/components/types.ts#L32">components/types.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -134,21 +134,6 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="path" class="tsd-anchor"></a>
-					<h3>path</h3>
-					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/ebfcac5/lib/components/types.ts#L50">components/types.ts:50</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The path to the value in the redux store to be watched.</p>
-						</div>
-					</div>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="shouldupdate" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> should<wbr>Update</h3>
@@ -156,7 +141,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_types_.watchoptions.html">WatchOptions</a>.<a href="_components_types_.watchoptions.html#shouldupdate">shouldUpdate</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/ebfcac5/lib/components/types.ts#L36">components/types.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/d3135ef/lib/components/types.ts#L37">components/types.ts:37</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -167,12 +152,29 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="source" class="tsd-anchor"></a>
+					<h3>source</h3>
+					<div class="tsd-signature tsd-kind-icon">source<span class="tsd-signature-symbol">:</span> <a href="../modules/_components_types_.html#watchsource" class="tsd-signature-type">WatchSource</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/d3135ef/lib/components/types.ts#L53">components/types.ts:53</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The source to be watched. This can be an object path as a dot-separated
+								string or a function that takes the current state and returns the value
+							that should be used as the nextValue.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="store" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> store</h3>
 					<div class="tsd-signature tsd-kind-icon">store<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Store</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/ebfcac5/lib/components/types.ts#L54">components/types.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/d3135ef/lib/components/types.ts#L57">components/types.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -188,12 +190,12 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_types_.watchoptions.html">WatchOptions</a>.<a href="_components_types_.watchoptions.html#transform">transform</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/ebfcac5/lib/components/types.ts#L43">components/types.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/d3135ef/lib/components/types.ts#L44">components/types.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A function that is called when the value is updated that allowes the
+							<p>A function that is called when the value is updated that allows the
 								new value to be transformed. Note: this does not transform the value
 								that is passed as the second argument of the shouldUpdate and
 							transform functions.</p>
@@ -213,6 +215,9 @@
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_components_getbychain_.html">"components/get<wbr>ByChain"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_components_getvaluefromstore_.html">"components/get<wbr>Value<wbr>From<wbr>Store"</a>
 					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/_components_types_.html">"components/types"</a>
@@ -244,11 +249,11 @@
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_components_types_.watchdeclaration.html#noinit" class="tsd-kind-icon">no<wbr>Init</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_components_types_.watchdeclaration.html#path" class="tsd-kind-icon">path</a>
-							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_components_types_.watchdeclaration.html#shouldupdate" class="tsd-kind-icon">should<wbr>Update</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_components_types_.watchdeclaration.html#source" class="tsd-kind-icon">source</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_components_types_.watchdeclaration.html#store" class="tsd-kind-icon">store</a>
@@ -286,6 +291,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="../modules/_components_types_.html#watchoptionstransformfunction" class="tsd-kind-icon">Watch<wbr>Options<wbr>Transform<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../modules/_components_types_.html#watchsource" class="tsd-kind-icon">Watch<wbr>Source</a>
 					</li>
 				</ul>
 			</nav>

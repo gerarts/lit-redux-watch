@@ -36,7 +36,7 @@ export interface WatchOptions<T> {
      */
     shouldUpdate?: WatchOptionsShouldUpdateFunction<T>;
     /**
-     * A function that is called when the value is updated that allowes the
+     * A function that is called when the value is updated that allows the
      * new value to be transformed. Note: this does not transform the value
      * that is passed as the second argument of the shouldUpdate and
      * transform functions.
