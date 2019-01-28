@@ -1,7 +1,7 @@
 // tslint:disable max-classes-per-file
 import { connect, defaultWatchOptions, watch } from '../';
 import { store } from './helpers.test';
-import { ConnectAddons, WatchDeclarations } from './types';
+import { ConnectAddons, Constructable, WatchDeclarations } from './types';
 
 interface ConnectAddonsWithUpdate extends ConnectAddons {
     observedAttributes: string[];
@@ -9,6 +9,28 @@ interface ConnectAddonsWithUpdate extends ConnectAddons {
     finalize(): void;
     requestUpdate(name?: PropertyKey, oldValue?: any): void;
 }
+
+/**
+ * Class with simple finalizable
+ */
+const testClassFactory: () => Constructable<any> = (): Constructable<any> => class {
+    public static finalized: boolean;
+
+    constructor() {
+        this.throwIfNotFinalized();
+    }
+
+    // tslint:disable-next-line function-name
+    public static finalize(): void {
+        this.finalized = true;
+    }
+
+    public throwIfNotFinalized(): void {
+        if (!(<any>this.constructor).finalized) {
+            throw Error('Class should be finalized');
+        }
+    }
+};
 
 test('Connect returns a class', () => {
     const clazz: new (...args: any[]) => any = class A {};
@@ -33,7 +55,7 @@ test('Connect created property calls requestUpdate (LitElement integration)', (d
     /**
      * Test class
      */
-    class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A {
+    class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A extends testClassFactory() {
         // tslint:disable-next-line function-name
         public requestUpdate(): void {
             done(); // Call jest callback
@@ -42,6 +64,8 @@ test('Connect created property calls requestUpdate (LitElement integration)', (d
         @watch('defaultReducer.nested.values')
         public readonly property?: string;
     }
+
+    Test.finalize();
 
     // Doing something with value
     return new Test();
@@ -52,14 +76,7 @@ test('Connect created property via static get watch() should throw when store is
         /**
          * Test class
          */
-        class Test extends (<ConnectAddonsWithUpdate>connect()(class A {
-            public static finalized: boolean;
-
-            // tslint:disable-next-line function-name
-            public static finalize(): void {
-                this.finalized = true;
-            }
-        })) {
+        class Test extends (<ConnectAddonsWithUpdate>connect()(testClassFactory())) {
             public static get watch(): WatchDeclarations {
                 return {
                     property: {
@@ -82,14 +99,7 @@ test('Connect created property via static get watch() should not throw when stor
         /**
          * Test class
          */
-        class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A {
-            public static finalized: boolean;
-
-            // tslint:disable-next-line function-name
-            public static finalize(): void {
-                this.finalized = true;
-            }
-        })) {
+        class Test extends (<ConnectAddonsWithUpdate>connect(store)(testClassFactory())) {
             public static get watch(): WatchDeclarations {
                 return {
                     property: {
@@ -112,14 +122,7 @@ test('Connect created property via static get watch() should not throw when stor
         /**
          * Test class
          */
-        class Test extends (<ConnectAddonsWithUpdate>connect()(class A {
-            public static finalized: boolean;
-
-            // tslint:disable-next-line function-name
-            public static finalize(): void {
-                this.finalized = true;
-            }
-        })) {
+        class Test extends (<ConnectAddonsWithUpdate>connect()(testClassFactory())) {
             public static get watch(): WatchDeclarations {
                 return {
                     property: {
@@ -142,14 +145,7 @@ test('Connect created property via static get watch() calls requestUpdate (LitEl
     /**
      * Test class
      */
-    class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A {
-        public static finalized: boolean;
-
-        // tslint:disable-next-line function-name
-        public static finalize(): void {
-            this.finalized = true;
-        }
-
+    class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A extends testClassFactory() {
         // tslint:disable-next-line function-name
         public requestUpdate(): void {
             done(); // Call jest callback
@@ -175,12 +171,10 @@ test('Connect created property via static get watch() calls requestUpdate (LitEl
     /**
      * Test class
      */
-    class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A {
-        public static finalized: boolean;
-
+    class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A extends testClassFactory() {
         // tslint:disable-next-line function-name
         public static finalize(): void {
-            this.finalized = true;
+            (<any>this.constructor).finalized = true;
             done(); // Call jest callback
         }
     })) {
@@ -216,12 +210,10 @@ test('Connect double finalize only called once', (done: jest.DoneCallback) => {
     /**
      * Test class
      */
-    class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A {
-        public static finalized: boolean;
-
+    class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A extends testClassFactory() {
         // tslint:disable-next-line function-name
         public static finalize(): void {
-            this.finalized = true;
+            (<any>this.constructor).finalized = true;
             doneWrap(); // Call jest callback
         }
     })) {
