@@ -1,5 +1,5 @@
 // tslint:disable max-func-body-length
-import { Store } from 'redux';
+import { Store, Unsubscribe } from 'redux';
 import { getValueFromStore } from './getValueFromStore';
 import {
     ConnectAddons,
@@ -40,6 +40,11 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
              */
             protected static litReduxWatchConnectWatchedProperties: Map<PropertyKey, WatchedProperty>;
 
+            /**
+             * List of all active watchers
+             */
+            protected litReduxWatchActiveWatchers: Unsubscribe[] | null = [];
+
             constructor(...args: any[]) {
                 super(...args);
 
@@ -57,16 +62,16 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
                             this[String(name)] = transform(currentValue, undefined, source);
                         }
 
-                        watchStore.subscribe(() => {
+                        (this.litReduxWatchActiveWatchers || []).push(watchStore.subscribe(() => {
                             const nextValue: any = getValueFromStore(watchStore, source);
-                            if (!compare(currentValue, nextValue)) {
+                            if (Array.isArray(this.litReduxWatchActiveWatchers) && !compare(currentValue, nextValue)) {
                                 if (shouldUpdate(nextValue, currentValue, source)) {
                                     const oldValue: any = currentValue;
                                     currentValue = nextValue;
                                     this[String(name)] = transform(currentValue, oldValue, source);
                                 }
                             }
-                        });
+                        }));
                     },
                 );
             }
@@ -148,6 +153,22 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
                         }, source, finalStore);
                     });
                 }
+            }
+
+            /**
+             * Stop listening when element is detached. Will call super.disconnectedCallback()
+             * if exists.
+             */
+            public disconnectedCallback(): void {
+                if (typeof super.disconnectedCallback === 'function') {
+                    (<() => void>super.disconnectedCallback)();
+                }
+
+                (this.litReduxWatchActiveWatchers || []).forEach((u: Unsubscribe) => {
+                    u();
+                });
+
+                this.litReduxWatchActiveWatchers = null;
             }
         };
     };
