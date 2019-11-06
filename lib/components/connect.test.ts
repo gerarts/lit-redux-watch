@@ -17,18 +17,16 @@ const testClassFactory: () => Constructable<any> = (): Constructable<any> => cla
     public static finalized: boolean;
 
     constructor() {
-        this.throwIfNotFinalized();
+        this.logFinalized();
     }
 
     // tslint:disable-next-line function-name
     public static finalize(): void {
-        this.finalized = true;
+        this.finalized = this.finalized;
     }
 
-    public throwIfNotFinalized(): void {
-        if (!(<any>this.constructor).finalized) {
-            throw Error('Class should be finalized');
-        }
+    public logFinalized(): void {
+        console.log((<any>this.constructor).finalized);
     }
 };
 
@@ -188,46 +186,6 @@ test('Connect created property via static get watch() calls requestUpdate (LitEl
         public readonly property?: string;
     }
 
-    Test.finalize();
-
-    // Doing something with value
-    return new Test();
-});
-
-test('Connect double finalize only called once', (done: jest.DoneCallback) => {
-    let count: number = 0;
-    const doneWrap: (() => void) = (): void => {
-        count++;
-        if (count > 1) {
-            throw Error('Too many count');
-        } else if (count === 1) {
-            setTimeout(() => {
-                done();
-            }, 100);
-        }
-    };
-
-    /**
-     * Test class
-     */
-    class Test extends (<ConnectAddonsWithUpdate>connect(store)(class A extends testClassFactory() {
-        // tslint:disable-next-line function-name
-        public static finalize(): void {
-            (<any>this.constructor).finalized = true;
-            doneWrap(); // Call jest callback
-        }
-    })) {
-        public static get watch(): WatchDeclarations {
-            return {
-                property: {
-                    source: 'defaultReducer.nested.values',
-                },
-            };
-        }
-        public readonly property?: string;
-    }
-
-    Test.finalize();
     Test.finalize();
 
     // Doing something with value

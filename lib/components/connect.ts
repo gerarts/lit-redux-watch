@@ -31,11 +31,6 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
             public static watch: WatchDeclarations;
 
             /**
-             * Marks class as having finished creating properties.
-             */
-            protected static finalized: boolean;
-
-            /**
              * List of all watched properties
              */
             protected static litReduxWatchConnectWatchedProperties: Map<PropertyKey, WatchedProperty>;
@@ -110,16 +105,11 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
             }
 
             protected static finalize(): void {
-                if (this.finalized) {
-                    return;
-                }
-
                 // finalize any superclasses
                 const superCtor: {finalize?: Function} = Object.getPrototypeOf(this);
                 if (typeof superCtor.finalize === 'function') {
                     superCtor.finalize();
                 }
-                this.finalized = true;
 
                 // Attach watchables
                 this.litReduxWatchAttachWatchables();
