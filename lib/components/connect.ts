@@ -30,6 +30,8 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
 
             public static watch: WatchDeclarations;
 
+            public static readyAndWatching: boolean;
+
             /**
              * List of all watched properties
              */
@@ -106,9 +108,10 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
 
             protected static finalize(): void {
                 // finalize any superclasses
-                const superCtor: {finalize?: Function} = Object.getPrototypeOf(this);
-                if (typeof superCtor.finalize === 'function') {
-                    superCtor.finalize();
+                // @ts-ignore
+                if (typeof <{finalize(): void}>super.finalize === 'function') {
+                    // @ts-ignore
+                    super.finalize.call(this);
                 }
 
                 // Attach watchables
@@ -122,7 +125,8 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
             }
 
             private static litReduxWatchAttachWatchables(): void {
-                if (this.hasOwnProperty('watch')) {
+                if (!this.readyAndWatching && this.hasOwnProperty('watch')) {
+                    this.readyAndWatching = true;
                     const watched: WatchDeclarations = this.watch;
                     [...Object.getOwnPropertyNames(watched)].forEach((key: string): void => {
                         const { source, store, ...options } = watched[key];
