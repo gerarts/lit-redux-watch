@@ -1,17 +1,17 @@
-import { Store } from 'redux';
+import { Action, AnyAction, Store } from 'redux';
 
 export type Constructable<T> = new (...args: any[]) => T;
-export type WatchSource<T = any> = string | ((state: any) => T | undefined);
+export type WatchSource<S, T = any> = string | ((state: S) => T | undefined);
 
-export interface ConnectAddons extends Constructable<any> {
-    litReduxWatchConnectWatchedProperties: Map<PropertyKey, WatchedProperty>;
-    litReduxWatchConnectDefaultStore?: Store;
+export interface ConnectAddons<S = any, A extends Action = AnyAction> extends Constructable<any> {
+    litReduxWatchConnectWatchedProperties: Map<PropertyKey, WatchedProperty<S, A>>;
+    litReduxWatchConnectDefaultStore?: Store<S, A>;
     litReduxWatchConnectDefaultOptions: WatchOptions<any>;
     litReduxWatchConnectProperty(
         name: PropertyKey,
         finalWatchOptions: FinalWatchOptions,
-        finalWatchSource: WatchSource,
-        finalWatchStore: Store,
+        finalWatchSource: WatchSource<S>,
+        finalWatchStore: Store<S, A>,
     ): void;
 }
 
@@ -44,20 +44,20 @@ export interface WatchOptions<T> {
     transform?: WatchOptionsTransformFunction<T>;
 }
 
-export interface WatchDeclaration extends WatchOptions<any> {
+export interface WatchDeclaration<S = any, A extends Action = AnyAction> extends WatchOptions<any> {
     /**
      * The source to be watched. This can be an object path as a dot-separated
      * string or a function that takes the current state and returns the value
      * that should be used as the nextValue.
      */
-    source: WatchSource;
+    source: WatchSource<S>;
     /**
      * The store to be watched for updates.
      */
-    store?: Store;
+    store?: Store<S, A>;
 }
-export interface WatchDeclarations {
-    [key: string]: WatchDeclaration;
+export interface WatchDeclarations<S = any, A extends Action = AnyAction> {
+    [key: string]: WatchDeclaration<S, A>;
 }
 
 export interface FinalWatchOptions<T = any> extends WatchOptions<T> {
@@ -67,10 +67,10 @@ export interface FinalWatchOptions<T = any> extends WatchOptions<T> {
     transform: WatchOptionsTransformFunction<T>;
 }
 
-export interface WatchedProperty {
+export interface WatchedProperty<S = any, A extends Action = AnyAction> {
     options: FinalWatchOptions;
-    source: WatchSource;
-    store: Store;
+    source: WatchSource<S>;
+    store: Store<S, A>;
 }
 
 export type ConnectMixinFunction = <T extends Constructable<any>>(superClass: T) => T;

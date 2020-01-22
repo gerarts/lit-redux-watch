@@ -1,5 +1,5 @@
 // tslint:disable max-func-body-length
-import { Store, Unsubscribe } from 'redux';
+import { Action, Store, Unsubscribe } from 'redux';
 import { getValueFromStore } from './getValueFromStore';
 import {
     ConnectAddons,
@@ -17,25 +17,25 @@ import { defaultWatchOptions } from './watch';
  * Connect mixin to add watch functionality to a class. When used with LitElement
  * requestUpdate is called to apply updates when watched values change.
  */
-export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOptions<C>): ConnectMixinFunction {
+export function connect<S, A extends Action, C = any>(defaultStore?: Store<S, A>, defaultOptions?: WatchOptions<C>): ConnectMixinFunction {
     return <T extends Constructable<any>>(superClass: T): T => {
         return class extends superClass {
 
-            static get litReduxWatchConnectDefaultStore(): Store | undefined {
+            static get litReduxWatchConnectDefaultStore(): Store<S, A> | undefined {
                 return defaultStore;
             }
             static get litReduxWatchConnectDefaultOptions(): WatchOptions<C> | undefined {
                 return defaultOptions;
             }
 
-            public static watch: WatchDeclarations;
+            public static watch: WatchDeclarations<S, A>;
 
             public static readyAndWatching: boolean;
 
             /**
              * List of all watched properties
              */
-            protected static litReduxWatchConnectWatchedProperties: Map<PropertyKey, WatchedProperty>;
+            protected static litReduxWatchConnectWatchedProperties: Map<PropertyKey, WatchedProperty<S, A>>;
 
             /**
              * List of all active watchers
@@ -46,8 +46,8 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
                 super(...args);
 
                 // Attach all watchers
-                ((<ConnectAddons>this.constructor).litReduxWatchConnectWatchedProperties || new Map()).forEach(
-                    (property: WatchedProperty, name: PropertyKey) => {
+                ((<ConnectAddons<S, A>>this.constructor).litReduxWatchConnectWatchedProperties || new Map()).forEach(
+                    (property: WatchedProperty<S, A>, name: PropertyKey) => {
                         const { options: watchOptions, source, store: watchStore } = property;
                         const { compare, noInit, shouldUpdate, transform } = watchOptions;
 
@@ -80,8 +80,8 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
             public static litReduxWatchConnectProperty(
                 name: PropertyKey,
                 options: FinalWatchOptions,
-                source: WatchSource,
-                store: Store,
+                source: WatchSource<S>,
+                store: Store<S, A>,
             ): void {
                 this.litReduxWatchEnsureConnectWatchedProperties();
                 this.litReduxWatchConnectWatchedProperties.set(name, { options, source, store });
@@ -127,10 +127,10 @@ export function connect<C = any>(defaultStore?: Store, defaultOptions?: WatchOpt
             private static litReduxWatchAttachWatchables(): void {
                 if (!this.readyAndWatching && this.hasOwnProperty('watch')) {
                     this.readyAndWatching = true;
-                    const watched: WatchDeclarations = this.watch;
+                    const watched: WatchDeclarations<S, A> = this.watch;
                     [...Object.getOwnPropertyNames(watched)].forEach((key: string): void => {
                         const { source, store, ...options } = watched[key];
-                        const finalStore: Store | undefined = store || this.litReduxWatchConnectDefaultStore;
+                        const finalStore: Store<S, A> | undefined = store || this.litReduxWatchConnectDefaultStore;
 
                         if (!finalStore) {
                             throw Error(

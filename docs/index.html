@@ -40,6 +40,8 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -62,16 +64,32 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="lit-redux-watch">lit-redux-watch</h1>
+				<a href="#lit-redux-watch" id="lit-redux-watch" style="color: inherit; text-decoration: none;">
+					<h1>lit-redux-watch</h1>
+				</a>
 				<p><a href="https://travis-ci.org/gerarts/lit-redux-watch"><img src="https://img.shields.io/travis/gerarts/lit-redux-watch.svg" alt="Build Status - Travis CI"></a>
 					<a href="https://codeclimate.com/github/gerarts/lit-redux-watch/test_coverage"><img src="https://img.shields.io/codeclimate/coverage/gerarts/lit-redux-watch.svg" alt="Test Coverage - Code Climate"></a>
 					<a href="https://github.com/gerarts/lit-redux-watch/blob/master/LICENSE"><img src="https://img.shields.io/github/license/gerarts/lit-redux-watch.svg" alt="GPL-3.0"></a>
 				<a href="https://www.npmjs.com/package/lit-redux-watch"><img src="https://img.shields.io/npm/v/lit-redux-watch.svg" alt="NPM"></a></p>
 				<p>Attach <a href="http://redux.js.org/">Redux</a> store state and <a href="https://github.com/reduxjs/reselect">Reselect</a> selectors to properties in <a href="https://lit-element.polymer-project.org">LitElement</a> with the <code>@watch()</code> decorator or a static <code>watch</code> getter.</p>
-				<h2 id="install">Install</h2>
-				<pre><code>npm <span class="hljs-selector-tag">i</span> lit-redux-watch</code></pre><h2 id="usage">Usage</h2>
-				<h3 id="introduction-examples">Introduction examples</h3>
-				<h4 id="with-the-watch-decorator">With the <code>@watch</code> decorator</h4>
+				<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+					<h2>Install</h2>
+				</a>
+				<pre><code><span class="hljs-built_in">npm</span> i lit-redux-watch</code></pre>
+				<a href="#api-documentation" id="api-documentation" style="color: inherit; text-decoration: none;">
+					<h2>API documentation</h2>
+				</a>
+				<p>We generate API documentation with <a href="https://typedoc.org">TypeDoc</a>.</p>
+				<p><a href="https://gerarts.github.io/lit-redux-watch/"><img src="https://img.shields.io/badge/API-Documentation-blue?style=for-the-badge&logo=typescript" alt="API Documentation"></a></p>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<a href="#introduction-examples" id="introduction-examples" style="color: inherit; text-decoration: none;">
+					<h3>Introduction examples</h3>
+				</a>
+				<a href="#with-the-codewatchcode-decorator" id="with-the-codewatchcode-decorator" style="color: inherit; text-decoration: none;">
+					<h4>With the <code>@watch</code> decorator</h4>
+				</a>
 				<p>This example uses TypeScript with decorators to register properties with watchers. Decorators are an experimental feature but can be used by enabling them in your <code>tsconfig.json</code>. More information can be found in the <a href="https://www.typescriptlang.org/docs/handbook/decorators.html">TypeScript Documentation</a>.</p>
 				<p>The <a href="http://github.com/tc39/proposal-decorators">TC39 proposed decorators</a> which are currently in <a href="https://github.com/tc39/proposals#stage-2">Stage 2</a> will be supported in the future.</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {LitElement, html} <span class="hljs-keyword">from</span> <span class="hljs-string">'lit-element'</span>;
@@ -84,34 +102,40 @@
     userName?: <span class="hljs-built_in">string</span>;
 
     render() {
-      <span class="hljs-keyword">return</span> html<span class="hljs-string">`
-        &lt;div&gt;Name: <span class="hljs-subst">${this.userName}</span>&lt;/div&gt;
+      <span class="hljs-keyword">return</span> html`<span class="xml">
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Name: </span><span class="hljs-subst">${<span class="hljs-keyword">this</span>.userName}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
       `</span>;
     }
 
 }</code></pre>
-				<h4 id="with-a-static-watch-getter">With a static <code>watch</code> getter</h4>
+				<a href="#with-a-static-codewatchcode-getter" id="with-a-static-codewatchcode-getter" style="color: inherit; text-decoration: none;">
+					<h4>With a static <code>watch</code> getter</h4>
+				</a>
 				<pre><code class="language-js"><span class="hljs-keyword">import</span> {LitElement, html} <span class="hljs-keyword">from</span> <span class="hljs-string">'lit-element'</span>;
 <span class="hljs-keyword">import</span> {connect} <span class="hljs-keyword">from</span> <span class="hljs-string">'lit-redux-watch'</span>;
 <span class="hljs-keyword">import</span> {store} <span class="hljs-keyword">from</span> <span class="hljs-string">'./store'</span>; <span class="hljs-comment">// Your redux store</span>
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">connect</span>(<span class="hljs-title">store</span>)(<span class="hljs-title">LitElement</span>) </span>{
 
-    <span class="hljs-keyword">static</span> get watch() {
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">get</span> watch() {
         <span class="hljs-keyword">return</span> {
             <span class="hljs-attr">userName</span>: <span class="hljs-string">'user.name'</span>
         }
     }
 
     render() {
-      <span class="hljs-keyword">return</span> html<span class="hljs-string">`
-        &lt;div&gt;Name: <span class="hljs-subst">${<span class="hljs-keyword">this</span>.userName}</span>&lt;/div&gt;
+      <span class="hljs-keyword">return</span> html`<span class="xml">
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Name: </span><span class="hljs-subst">${<span class="hljs-keyword">this</span>.userName}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
       `</span>;
     }
 
 }</code></pre>
-				<h3 id="setup">Setup</h3>
-				<h4 id="connect-store-options-"><code>connect([store[, options]])</code></h4>
+				<a href="#setup" id="setup" style="color: inherit; text-decoration: none;">
+					<h3>Setup</h3>
+				</a>
+				<a href="#codeconnectstore-optionscode" id="codeconnectstore-optionscode" style="color: inherit; text-decoration: none;">
+					<h4><code>connect([store[, options]])</code></h4>
+				</a>
 				<p>To use lit-redux-watch in a class, use the <code>connect</code> mixin.</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">class</span> MyElement <span class="hljs-keyword">extends</span> connect()(LitElement) {}
 
@@ -119,7 +143,9 @@
 
 <span class="hljs-keyword">class</span> MyElement <span class="hljs-keyword">extends</span> connect(store, options)(LitElement) {}</code></pre>
 				<p>When no store is provided via <code>connect</code> one must be provided via <code>static get watch</code>/<code>@watch</code>.</p>
-				<h4 id="-watch-source-options-store-"><code>@watch(source[, options][, store])</code></h4>
+				<a href="#codewatchsource-options-storecode" id="codewatchsource-options-storecode" style="color: inherit; text-decoration: none;">
+					<h4><code>@watch(source[, options][, store])</code></h4>
+				</a>
 				<p>To create a watching property, use the <code>@watch</code> decorator.</p>
 				<pre><code class="language-ts"><span class="hljs-meta">@watch</span>(<span class="hljs-string">'user.firstName'</span>)
 userFirstName?: <span class="hljs-built_in">string</span>;
@@ -141,7 +167,9 @@ userPhoneNumber?: <span class="hljs-built_in">string</span>;
 <span class="hljs-meta">@watch</span>(userLanguagesSelector)
 userLanguages?: <span class="hljs-built_in">string</span>[];</code></pre>
 				<p>See the sections on <a href="#source">sources</a> and <a href="#options">options</a> for more information about what sources and options can be used.</p>
-				<h4 id="static-get-watch-"><code>static get watch() {}</code></h4>
+				<a href="#codestatic-get-watch-code" id="codestatic-get-watch-code" style="color: inherit; text-decoration: none;">
+					<h4><code>static get watch() {}</code></h4>
+				</a>
 				<p>To create a watching property, use the static <code>watch</code> getter.</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">static</span> <span class="hljs-keyword">get</span> watch() {
     <span class="hljs-keyword">return</span> {
@@ -155,22 +183,32 @@ userLanguages?: <span class="hljs-built_in">string</span>[];</code></pre>
         }
     }
 }</code></pre>
-				<h6 id="note">NOTE</h6>
+				<a href="#note" id="note" style="color: inherit; text-decoration: none;">
+					<h6>NOTE</h6>
+				</a>
 				<p>Options and stores provided via <code>static get watch</code>/<code>@watch</code> override those provided in the <code>connect</code> mixin.</p>
-				<h3 id="source">Source</h3>
-				<h4 id="path-string-source">Path-string source</h4>
+				<a href="#source" id="source" style="color: inherit; text-decoration: none;">
+					<h3>Source</h3>
+				</a>
+				<a href="#path-string-source" id="path-string-source" style="color: inherit; text-decoration: none;">
+					<h4>Path-string source</h4>
+				</a>
 				<p>A simple path-string can be used as a source.</p>
 				<pre><code class="language-ts"><span class="hljs-meta">@watch</span>(<span class="hljs-string">'shop.items'</span>)
 shopItems?: ShopItem[];</code></pre>
 				<p>Path-strings are like object paths, so the above maps to:</p>
 				<pre><code class="language-ts">store.getState().shop.items</code></pre>
 				<p>The difference is that if the string-path can not be traversed all the way <code>undefined</code> is returned instead of an error being thrown.</p>
-				<h4 id="function-source">Function source</h4>
+				<a href="#function-source" id="function-source" style="color: inherit; text-decoration: none;">
+					<h4>Function source</h4>
+				</a>
 				<p>Instead of a path-string a function can also be used as source.</p>
 				<pre><code class="language-ts"><span class="hljs-meta">@watch</span>(<span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> state.user.firstName)
 userFirstName?: <span class="hljs-built_in">string</span>;</code></pre>
 				<p>The function gets called with the store state as the first parameter and should return the value for lit-redux-watch to use.</p>
-				<h4 id="reselect-selector-source">Reselect selector source</h4>
+				<a href="#reselect-selector-source" id="reselect-selector-source" style="color: inherit; text-decoration: none;">
+					<h4>Reselect selector source</h4>
+				</a>
 				<p><a href="https://github.com/reduxjs/reselect">Reselect</a> selectors can also be used as a source since they return a function compatible with the pattern mentioned in <a href="#function-source">Function source</a>.</p>
 				<p>Simply create a selector...</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">const</span> shopItemsSelector = <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> state.shop.items;
@@ -182,7 +220,9 @@ userFirstName?: <span class="hljs-built_in">string</span>;</code></pre>
 				<pre><code class="language-ts"><span class="hljs-meta">@watch</span>(subtotalSelector)
 subtotal?: <span class="hljs-built_in">number</span>;</code></pre>
 				<p>For more information about <a href="https://github.com/reduxjs/reselect">Reselect</a> see the <a href="https://github.com/reduxjs/reselect#reselect">reselect documentation</a>.</p>
-				<h3 id="options">Options</h3>
+				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
+					<h3>Options</h3>
+				</a>
 				<p>These are the available options for watchers.</p>
 				<pre><code class="language-ts">{
     <span class="hljs-comment">/**
@@ -218,14 +258,20 @@ subtotal?: <span class="hljs-built_in">number</span>;</code></pre>
         <span class="hljs-keyword">return</span> nextValue.trim();
     }
 }</code></pre>
-				<h2 id="credits">Credits</h2>
+				<a href="#credits" id="credits" style="color: inherit; text-decoration: none;">
+					<h2>Credits</h2>
+				</a>
 				<p>lit-redux-watch is inspired by <a href="https://github.com/jprichardson/redux-watch">jprichardson/redux-watch</a> and the property registration from <a href="https://github.com/Polymer/lit-element">Polymer/lit-element</a></p>
-				<h2 id="coming-soon">Coming soon</h2>
+				<a href="#coming-soon" id="coming-soon" style="color: inherit; text-decoration: none;">
+					<h2>Coming soon</h2>
+				</a>
 				<ul>
 					<li>The <a href="http://github.com/tc39/proposal-decorators">TC39 proposed decorators</a> which are currently in <a href="https://github.com/tc39/proposals#stage-2">Stage 2</a> will be supported in the future.</li>
 					<li>Maybe dispatching actions back to redux on property <code>set</code> will be added. Currently looking into this.</li>
 				</ul>
-				<h2 id="license">License</h2>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h2>License</h2>
+				</a>
 				<p><a href="https://github.com/gerarts/lit-redux-watch/blob/master/LICENSE">GPL-3.0</a></p>
 				<p>Made by Paul Gerarts</p>
 			</div>
@@ -275,6 +321,7 @@ subtotal?: <span class="hljs-built_in">number</span>;</code></pre>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -323,7 +370,7 @@ subtotal?: <span class="hljs-built_in">number</span>;</code></pre>
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>

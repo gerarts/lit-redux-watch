@@ -1,4 +1,4 @@
-import { Store } from 'redux';
+import { Action, Store } from 'redux';
 import { ConnectAddons, FinalWatchOptions, WatchDecoratorFunction, WatchOptions, WatchSource } from './types';
 
 /**
@@ -13,15 +13,26 @@ export const defaultWatchOptions: (<T = any>() => FinalWatchOptions<T>) = <T = a
 /**
  * Decorator to attach a property to a redux store.
  */
-export function watch<T = any>(source: WatchSource, options?: WatchOptions<T>, store?: Store): WatchDecoratorFunction;
-export function watch<T = any>(source: WatchSource, store: Store): WatchDecoratorFunction;
-export function watch<T = any>(source: WatchSource, options: WatchOptions<T> | Store = {}, store?: Store): WatchDecoratorFunction {
+export function watch<S, A extends Action, T = any>(
+    source: WatchSource<S>,
+    options?: WatchOptions<T>,
+    store?: Store<S, A>,
+): WatchDecoratorFunction;
+export function watch<S, A extends Action, T = any>(
+    source: WatchSource<S>,
+    store: Store<S, A>,
+): WatchDecoratorFunction;
+export function watch<S, A extends Action, T = any>(
+    source: WatchSource<S>,
+    options: WatchOptions<T> | Store<S, A> = {},
+    store?: Store<S, A>,
+): WatchDecoratorFunction {
     return (proto: any, name: PropertyKey): void => {
         let watchOptions: WatchOptions<T> | undefined;
-        let watchStore: Store | undefined;
+        let watchStore: Store<S, A> | undefined;
 
-        if (options && typeof (<Store>options).getState === 'function') {
-            watchStore = <Store>options;
+        if (options && typeof (<Store<S, A>>options).getState === 'function') {
+            watchStore = <Store<S, A>>options;
         } else if (options && typeof options === 'object') {
             watchOptions = <WatchOptions<T>>options;
         }
@@ -31,14 +42,14 @@ export function watch<T = any>(source: WatchSource, options: WatchOptions<T> | S
         }
 
         // tslint:disable no-unsafe-any
-        if ((<ConnectAddons>proto.constructor).litReduxWatchConnectDefaultStore && !watchStore) {
-            watchStore = (<ConnectAddons>proto.constructor).litReduxWatchConnectDefaultStore;
+        if ((<ConnectAddons<S, A>>proto.constructor).litReduxWatchConnectDefaultStore && !watchStore) {
+            watchStore = (<ConnectAddons<S, A>>proto.constructor).litReduxWatchConnectDefaultStore;
         }
 
         // Take mixin options and override with locally provided when set and definitively set the store and finalize watch options
         const finalWatchOptions: FinalWatchOptions<T> = {
             ...defaultWatchOptions<T>(),
-            ...<WatchOptions<T>>(<ConnectAddons>proto.constructor).litReduxWatchConnectDefaultOptions,
+            ...<WatchOptions<T>>(<ConnectAddons<S, A>>proto.constructor).litReduxWatchConnectDefaultOptions,
             ...watchOptions,
         };
         // tslint:enable no-unsafe-any
@@ -49,6 +60,6 @@ export function watch<T = any>(source: WatchSource, options: WatchOptions<T> | S
         }
 
         // tslint:disable-next-line no-unsafe-any
-        (<ConnectAddons>proto.constructor).litReduxWatchConnectProperty(name, finalWatchOptions, source, watchStore);
+        (<ConnectAddons<S, A>>proto.constructor).litReduxWatchConnectProperty(name, finalWatchOptions, source, watchStore);
     };
 }

@@ -13,6 +13,12 @@ Attach [Redux](http://redux.js.org/) store state and [Reselect](https://github.c
 npm i lit-redux-watch
 ```
 
+## API documentation
+
+We generate API documentation with [TypeDoc](https://typedoc.org).
+
+[![API Documentation](https://img.shields.io/badge/API-Documentation-blue?style=for-the-badge&logo=typescript)](https://gerarts.github.io/lit-redux-watch/)
+
 ## Usage
 
 ### Introduction examples

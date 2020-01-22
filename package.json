@@ -8,7 +8,7 @@
     "build": "tsc -p tsconfig.json",
     "ci:test": "npm-run-all -l build test:*",
     "clean": "del-cli dist",
-    "docs": "typedoc",
+    "docs": "typedoc && touch docs/.nojekyll",
     "prepare": "npm-run-all -l build",
     "test": "npm-run-all build test:*",
     "test:jest": "NODE_ENV=test jest",

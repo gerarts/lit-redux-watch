@@ -1,9 +1,10 @@
 // tslint:disable max-classes-per-file
+import { Action, AnyAction } from 'redux';
 import { connect, defaultWatchOptions, watch } from '../';
 import { store } from './helpers.test';
 import { ConnectAddons, Constructable, WatchDeclarations } from './types';
 
-interface ConnectAddonsWithUpdate extends ConnectAddons {
+interface ConnectAddonsWithUpdate<S = any, A extends Action = AnyAction> extends ConnectAddons<S, A> {
     observedAttributes: string[];
     finalized: boolean;
     finalize(): void;

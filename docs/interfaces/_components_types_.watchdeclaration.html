@@ -40,6 +40,8 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -60,13 +62,24 @@
 					<a href="_components_types_.watchdeclaration.html">WatchDeclaration</a>
 				</li>
 			</ul>
-			<h1>Interface WatchDeclaration</h1>
+			<h1>Interface WatchDeclaration&lt;S, A&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>S</h4>
+					</li>
+					<li>
+						<h4>A<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Action</span></h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -107,7 +120,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_types_.watchoptions.html">WatchOptions</a>.<a href="_components_types_.watchoptions.html#compare">compare</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/4c78f77/lib/components/types.ts#L26">components/types.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/ce9c24b/lib/components/types.ts#L26">components/types.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -123,7 +136,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_types_.watchoptions.html">WatchOptions</a>.<a href="_components_types_.watchoptions.html#noinit">noInit</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/4c78f77/lib/components/types.ts#L32">components/types.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/ce9c24b/lib/components/types.ts#L32">components/types.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -141,7 +154,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_types_.watchoptions.html">WatchOptions</a>.<a href="_components_types_.watchoptions.html#shouldupdate">shouldUpdate</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/4c78f77/lib/components/types.ts#L37">components/types.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/ce9c24b/lib/components/types.ts#L37">components/types.ts:37</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -154,10 +167,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="source" class="tsd-anchor"></a>
 					<h3>source</h3>
-					<div class="tsd-signature tsd-kind-icon">source<span class="tsd-signature-symbol">:</span> <a href="../modules/_components_types_.html#watchsource" class="tsd-signature-type">WatchSource</a></div>
+					<div class="tsd-signature tsd-kind-icon">source<span class="tsd-signature-symbol">:</span> <a href="../modules/_components_types_.html#watchsource" class="tsd-signature-type">WatchSource</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/4c78f77/lib/components/types.ts#L53">components/types.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/ce9c24b/lib/components/types.ts#L53">components/types.ts:53</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -171,10 +184,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="store" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> store</h3>
-					<div class="tsd-signature tsd-kind-icon">store<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Store</span></div>
+					<div class="tsd-signature tsd-kind-icon">store<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Store</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/4c78f77/lib/components/types.ts#L57">components/types.ts:57</a></li>
+							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/ce9c24b/lib/components/types.ts#L57">components/types.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -190,7 +203,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_types_.watchoptions.html">WatchOptions</a>.<a href="_components_types_.watchoptions.html#transform">transform</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/4c78f77/lib/components/types.ts#L44">components/types.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/gerarts/lit-redux-watch/blob/ce9c24b/lib/components/types.ts#L44">components/types.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -232,7 +245,7 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_components_types_.connectaddons.html" class="tsd-kind-icon">Connect<wbr>Addons</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
@@ -240,7 +253,7 @@
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_components_types_.watchdeclaration.html" class="tsd-kind-icon">Watch<wbr>Declaration</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
@@ -265,13 +278,13 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_components_types_.watchdeclarations.html" class="tsd-kind-icon">Watch<wbr>Declarations</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_components_types_.watchoptions.html" class="tsd-kind-icon">Watch<wbr>Options</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_components_types_.watchedproperty.html" class="tsd-kind-icon">Watched<wbr>Property</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
@@ -312,6 +325,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -360,7 +374,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
