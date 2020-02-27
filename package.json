@@ -27,7 +27,7 @@
     "name": "Paul Gerarts",
     "email": "dev@gerarts.nl"
   },
-  "license": "GPL-3.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/gerarts/lit-redux-watch/issues"
   },
