@@ -67,6 +67,13 @@ export function connect<S, A extends Action, C = any>(defaultStore?: Store<S, A>
                                     currentValue = nextValue;
                                     this[String(name)] = transform(currentValue, oldValue, source);
                                 }
+
+                                // Trigger changed lifecycle hook when props from store change
+                                if (this.changed === 'function') {
+                                    const changedProperties = new Map()
+                                    changedProperties.set(String(name), nextValue);
+                                    this.changed(changedProperties)
+                                }
                             }
                         }));
                     },
